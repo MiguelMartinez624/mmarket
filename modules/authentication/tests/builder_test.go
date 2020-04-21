@@ -3,7 +3,7 @@ package tests
 // import (
 // 	"testing"
 
-// 	auth "github.com/gompany/core/authentication"
+// 	auth "github.com/miguelmartinez624/mmarket/modules/authentication"
 // )
 
 // func TestBuilder(t *testing.T) {

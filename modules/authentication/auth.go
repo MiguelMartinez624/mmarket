@@ -9,17 +9,17 @@ import (
 	"github.com/miguelmartinez624/mmarket/modules/authentication/infrastructure/utils"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/gompany/core/authentication/facade"
+	authModule "github.com/miguelmartinez624/mmarket/modules/authentication/core"
 )
 
 const DB_URI = "mongodb://localhost:27017"
 
-func BuildAuthModule(client *mongo.Client, r *mux.Router) *facade.Authentication {
+func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Authentication {
 
 	mongoCredsRepo := persistency.NewMongoDBAccountsRepository(client.Database("m_market").Collection("accounts"))
 	bcryptEncripter := utils.BcryptEncripter{}
 
-	auth := facade.NewAuthentication(mongoCredsRepo, bcryptEncripter)
+	auth := authModule.NewAuthentication(mongoCredsRepo, bcryptEncripter)
 
 	//Http Controller
 	httpController := controllers.NewAuthHTTP(auth)

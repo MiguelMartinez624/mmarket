@@ -5,15 +5,15 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gompany/core/authentication/dto"
-	"github.com/gompany/core/authentication/facade"
+	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
+	"github.com/miguelmartinez624/mmarket/modules/authentication/core/dto"
 )
 
 type AuthenticationHTTP struct {
-	auth *facade.Authentication
+	auth *auth.Module
 }
 
-func NewAuthHTTP(auth *facade.Authentication) *AuthenticationHTTP {
+func NewAuthHTTP(auth *auth.Module) *AuthenticationHTTP {
 	return &AuthenticationHTTP{auth: auth}
 }
 

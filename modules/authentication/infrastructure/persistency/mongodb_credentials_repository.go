@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gompany/core/authentication/domains/accounts"
+	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -34,6 +34,21 @@ func (r *MongoDBAccountsRepository) SaveAccount(ctx context.Context, cre *accoun
 
 func (r *MongoDBAccountsRepository) GetAccountsByUserName(ctx context.Context, username string) (account *accounts.Account, err error) {
 	err = r.db.FindOne(ctx, bson.M{"username": username}).Decode(&account)
+	if err != nil {
+		fmt.Println(err)
+		switch err.Error() {
+		case "mongo: no documents in result":
+			return nil, accounts.AccountDontExist{}
+		default:
+			return nil, err
+		}
+
+	}
+
+	return account, nil
+}
+func (r *MongoDBAccountsRepository) GetAccountsByValidationHash(ctx context.Context, hash string) (account *accounts.Account, err error) {
+	err = r.db.FindOne(ctx, bson.M{"verification_hash": hash}).Decode(&account)
 	if err != nil {
 		fmt.Println(err)
 		switch err.Error() {
