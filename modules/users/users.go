@@ -1,6 +1,10 @@
 package users
 
-import "github.com/miguelmartinez624/mmarket/modules/users/domains/profile"
+import (
+	"context"
+
+	"github.com/miguelmartinez624/mmarket/modules/users/domains/profile"
+)
 
 // Module for the users profile domian administration
 type Module struct {
@@ -13,6 +17,7 @@ func BuildModule() *Module {
 	return &m
 }
 
-func (m *Module) CreateNewUserProfile(profile profile.Profile) (ID string, err error) {
-	return
+func (m *Module) CreateNewUserProfile(ctx context.Context, p *profile.Profile) (ID string, err error) {
+	return m.profileService.CreateProfile(ctx, p)
+
 }
