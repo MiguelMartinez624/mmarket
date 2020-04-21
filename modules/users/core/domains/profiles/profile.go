@@ -1,4 +1,4 @@
-package profile
+package profiles
 
 type Profile struct {
 	ID        string        `json:"id" bson:"_id,omitempty"`

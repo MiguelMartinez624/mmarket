@@ -14,7 +14,7 @@ import (
 
 const DB_URI = "mongodb://localhost:27017"
 
-func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Authentication {
+func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Module {
 
 	mongoCredsRepo := persistency.NewMongoDBAccountsRepository(client.Database("m_market").Collection("accounts"))
 	bcryptEncripter := utils.BcryptEncripter{}

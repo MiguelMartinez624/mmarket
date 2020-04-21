@@ -59,6 +59,15 @@ func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccoun
 
 	return
 }
+func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool, err error) {
+	success, err = m.AccountsService.ValidateAccountWithHash(ctx, hash)
+	if err != nil {
+		return false, err
+	}
+	//Once the acccount its validated we procced to mark the email as valid
+
+	return
+}
 
 func (m *Module) ConnectToProfiles(pm external.ProfileModule) {
 	m.profileModule = pm

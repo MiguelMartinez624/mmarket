@@ -32,6 +32,7 @@ func ModuleSuite(s *auth.Module, t *testing.T) {
 		{Name: "create new accounts", Callback: CreateAccountSuccessTest},
 		{Name: "attemp to create already existing accounts", Callback: CreateAlreadyExistingAccountTest},
 		{Name: "attemp to login on unverifid account", Callback: LoginUnVerifiedAccount},
+		{Name: "verify account hash success", Callback: VerifiedAccountSuccess},
 	}
 
 	for _, tCase := range tc {
@@ -95,7 +96,14 @@ func LoginUnVerifiedAccount(s *auth.Module, t *testing.T) {
 	default:
 		t.Errorf("expected [%v] to be [UnverifiedAccountError]", te)
 	}
+}
 
+func VerifiedAccountSuccess(s *auth.Module, t *testing.T) {
+	_, err := s.ValidateAccount(ctx, "key-has")
+
+	if err != nil {
+		t.Errorf("expexted %v to be nil", err)
+	}
 }
 
 func TestModule(t *testing.T) {

@@ -114,11 +114,17 @@ func (cs *Service) Authenticate(ctx context.Context, username string, password s
 	return
 }
 
+// ValidateAccountWithHash validates an account using a hash
 func (cs *Service) ValidateAccountWithHash(ctx context.Context, hash string) (success bool, err error) {
 
 	acc, err := cs.accountRepository.GetAccountsByValidationHash(ctx, hash)
 	if err != nil {
-		return false, err
+		switch err.(type) {
+		case AccountDontExist:
+			return false, InvalidVerificationCodeError
+		default:
+			return false, err
+		}
 	}
 
 	switch acc.Status {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/miguelmartinez624/mmarket/modules/users/domains/profile"
+	"github.com/miguelmartinez624/mmarket/modules/users/core/domains/profiles"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -16,7 +16,7 @@ type MongoDBProfileStore struct {
 func NewMongoDBProfileStoreRepository(db *mongo.Database) *MongoDBProfileStore {
 	return &MongoDBProfileStore{db: db}
 }
-func (s *MongoDBProfileStore) StoreProfile(ctx context.Context, profile *profile.Profile) (ID string, err error) {
+func (s *MongoDBProfileStore) StoreProfile(ctx context.Context, profile *profiles.Profile) (ID string, err error) {
 
 	result, err := s.db.Collection("profiles").InsertOne(ctx, profile)
 	if err != nil {
@@ -30,6 +30,6 @@ func (s *MongoDBProfileStore) StoreProfile(ctx context.Context, profile *profile
 	return fmt.Sprintf("%v", result.InsertedID), nil
 }
 
-func (s *MongoDBProfileStore) FindProfileByID(ctx context.Context, ID string) (profile *profile.Profile, err error) {
+func (s *MongoDBProfileStore) FindProfileByID(ctx context.Context, ID string) (profile *profiles.Profile, err error) {
 	return
 }
