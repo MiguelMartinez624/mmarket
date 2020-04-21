@@ -14,7 +14,7 @@ import (
 
 const DB_URI = "mongodb://localhost:27017"
 
-func BuildAuthModule(client *mongo.Client) *facade.Authentication {
+func BuildAuthModule(client *mongo.Client, r *mux.Router) *facade.Authentication {
 
 	mongoCredsRepo := persistency.NewMongoDBAccountsRepository(client.Database("gompany").Collection("accounts"))
 	bcryptEncripter := utils.BcryptEncripter{}
@@ -25,7 +25,7 @@ func BuildAuthModule(client *mongo.Client) *facade.Authentication {
 	httpController := controllers.NewAuthHTTP(auth)
 
 	//we add endpoints here to mux
-	r := mux.NewRouter()
+
 	r.HandleFunc("/signin", httpController.Signin).Methods("POST")
 	r.HandleFunc("/signup", httpController.SignUp).Methods("POST")
 
