@@ -9,8 +9,8 @@ type Service struct {
 	validator    Validator
 }
 
-func NewService() *Service {
-	return &Service{}
+func NewService(profileStore Store) *Service {
+	return &Service{profileStore: profileStore}
 }
 
 func (s *Service) CreateProfile(ctx context.Context, profile *Profile) (ID string, err error) {

@@ -11,8 +11,8 @@ type Module struct {
 	profileService *profile.Service
 }
 
-func BuildModule() *Module {
-	service := profile.NewService()
+func BuildModule(profileStore profile.Store) *Module {
+	service := profile.NewService(profileStore)
 	m := Module{profileService: service}
 	return &m
 }

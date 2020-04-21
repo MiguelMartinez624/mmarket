@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -14,8 +16,10 @@ import (
 	"github.com/miguelmartinez624/mmarket/modules/users"
 )
 
+const DB_URI = "mongodb://localhost:27017"
+
 func main() {
-	client, cancel := ConnectMongoDB("")
+	client, cancel := ConnectMongoDB(DB_URI)
 	defer cancel()
 	r := mux.NewRouter()
 	//AuthenticationModule
@@ -24,6 +28,16 @@ func main() {
 	usersModule := users.BuildUsersModule(client, r)
 
 	authModule.ConnectToProfiles(connections.AuthToProfileConnection(usersModule))
+
+	srv := &http.Server{
+		Handler: r,
+		Addr:    "127.0.0.1:8000",
+		// Good practice: enforce timeouts for servers you create!
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	fmt.Println("Up and running")
+	log.Fatal(srv.ListenAndServe())
 }
 
 func ConnectMongoDB(uri string) (client *mongo.Client, cancel context.CancelFunc) {

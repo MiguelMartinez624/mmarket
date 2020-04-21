@@ -16,7 +16,7 @@ const DB_URI = "mongodb://localhost:27017"
 
 func BuildAuthModule(client *mongo.Client, r *mux.Router) *facade.Authentication {
 
-	mongoCredsRepo := persistency.NewMongoDBAccountsRepository(client.Database("gompany").Collection("accounts"))
+	mongoCredsRepo := persistency.NewMongoDBAccountsRepository(client.Database("m_market").Collection("accounts"))
 	bcryptEncripter := utils.BcryptEncripter{}
 
 	auth := facade.NewAuthentication(mongoCredsRepo, bcryptEncripter)

@@ -2,6 +2,7 @@ package connections
 
 import (
 	"context"
+	"fmt"
 
 	authDto "github.com/gompany/core/authentication/dto"
 	"github.com/miguelmartinez624/mmarket/modules/users"
@@ -17,6 +18,7 @@ type APC struct {
 }
 
 func (c *APC) CreateProfile(profile *authDto.Profile) (success bool, err error) {
+	fmt.Println(profile)
 	ctx := context.TODO()
 	p := pd.Profile{
 		AccountID: profile.AccountID,
