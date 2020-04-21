@@ -5,13 +5,13 @@ import (
 	"log"
 	"time"
 
+	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"github.com/gorilla/mux"
-	
+
+	"github.com/miguelmartinez624/mmarket/connections"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication"
 	"github.com/miguelmartinez624/mmarket/modules/users"
-	"github.com/miguelmartinez624/mmarket/connections"
 )
 
 func main() {
