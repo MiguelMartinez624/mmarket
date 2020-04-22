@@ -1,7 +1,8 @@
 package stores
 
 type Store struct {
-	ID      string
-	Name    string
-	Address Address
+	ID        string
+	ProfileID string
+	Name      string
+	Address   Address
 }
