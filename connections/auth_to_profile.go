@@ -49,5 +49,7 @@ func (c *APC) GetProfileByAccountID(accID string) (profile *authDto.Profile, err
 }
 
 func (c *APC) ValidateEmail(accID string) (success bool, err error) {
-	return
+	ctx := context.TODO()
+
+	return c.m.ValidateContact(ctx, accID)
 }

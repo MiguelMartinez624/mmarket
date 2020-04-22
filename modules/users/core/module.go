@@ -24,3 +24,7 @@ func (m *Module) CreateNewUserProfile(ctx context.Context, p *profiles.Profile) 
 func (m *Module) GetAccountProfile(ctx context.Context, accountID string) (ID *profiles.Profile, err error) {
 	return m.profileService.GetProfileByAccountID(ctx, accountID)
 }
+
+func (m *Module) ValidateContact(ctx context.Context, accountID string) (sucess bool, err error) {
+	return m.profileService.ValidateMainContactInfo(ctx, accountID, true)
+}

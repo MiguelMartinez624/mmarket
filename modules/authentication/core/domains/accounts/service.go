@@ -115,26 +115,28 @@ func (cs *Service) Authenticate(ctx context.Context, username string, password s
 }
 
 // ValidateAccountWithHash validates an account using a hash
-func (cs *Service) ValidateAccountWithHash(ctx context.Context, hash string) (success bool, err error) {
+func (cs *Service) ValidateAccountWithHash(ctx context.Context, hash string) (acc *Account, err error) {
 
-	acc, err := cs.accountRepository.GetAccountsByValidationHash(ctx, hash)
+	acc, err = cs.accountRepository.GetAccountsByValidationHash(ctx, hash)
 	if err != nil {
 		switch err.(type) {
 		case AccountDontExist:
-			return false, InvalidVerificationCodeError
+			return nil, InvalidVerificationCodeError
 		default:
-			return false, err
+			return nil, err
 		}
 	}
 
 	switch acc.Status {
 	case Blocked:
-		return false, AccountBlockedError
+		return nil, AccountBlockedError
 	case Active:
-		return false, AccountAlreadyVerifiedError
+		return nil, AccountAlreadyVerifiedError
 	}
 
 	acc.Status = Active
 
-	return true, nil
+	//Need yo Update
+
+	return acc, nil
 }
