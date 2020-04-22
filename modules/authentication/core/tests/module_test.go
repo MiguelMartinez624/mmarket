@@ -33,6 +33,7 @@ func ModuleSuite(s *auth.Module, t *testing.T) {
 		{Name: "attemp to create already existing accounts", Callback: CreateAlreadyExistingAccountTest},
 		{Name: "attemp to login on unverifid account", Callback: LoginUnVerifiedAccount},
 		{Name: "verify account hash success", Callback: VerifiedAccountSuccess},
+		{Name: "attemp to login on verified account", Callback: LoginVerifiedAccount},
 	}
 
 	for _, tCase := range tc {
@@ -49,6 +50,7 @@ func CreateAccountSuccessTest(s *auth.Module, t *testing.T) {
 		LastName:  "Martiez",
 		Password:  "password123",
 		Username:  "username1",
+		Email:     "email@test.com",
 	}
 
 	success, err := s.RegisterAccounts(ctx, &rd)
@@ -68,6 +70,7 @@ func CreateAlreadyExistingAccountTest(s *auth.Module, t *testing.T) {
 		LastName:  "Martiez",
 		Password:  "password123",
 		Username:  "username1",
+		Email:     "email@test.com",
 	}
 
 	_, err := s.RegisterAccounts(ctx, &rd)
@@ -95,6 +98,13 @@ func LoginUnVerifiedAccount(s *auth.Module, t *testing.T) {
 
 	default:
 		t.Errorf("expected [%v] to be [UnverifiedAccountError]", te)
+	}
+}
+func LoginVerifiedAccount(s *auth.Module, t *testing.T) {
+	creds := dto.LoginAccount{Username: "username1", Password: "password123"}
+	_, err := s.Authenticate(ctx, &creds)
+	if err != nil {
+		t.Errorf("expexted %v to be nil", err)
 	}
 }
 

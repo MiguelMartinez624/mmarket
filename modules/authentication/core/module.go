@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
@@ -26,6 +27,17 @@ func NewAuthentication(accountRepository accounts.Repository, encrypter accounts
 
 //RegisterAccounts register a account and sent te profile data to the profiles data.
 func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUser) (success bool, err error) {
+
+	if register.FirstName == "" {
+		return false, errors.New("firstname missing.")
+	}
+	if register.FirstName == "" {
+		return false, errors.New("lastname missing.")
+	}
+	if register.Email == "" {
+		return false, errors.New("Email missing.")
+	}
+
 	keys, err := m.AccountsService.CreateAccount(ctx, register.Username, register.Password)
 	if err != nil {
 		return false, err

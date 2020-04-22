@@ -3,6 +3,7 @@ package persistency
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
 	"go.mongodb.org/mongo-driver/bson"
@@ -48,7 +49,7 @@ func (r *MongoDBAccountsRepository) GetAccountsByUserName(ctx context.Context, u
 	return account, nil
 }
 func (r *MongoDBAccountsRepository) GetAccountsByValidationHash(ctx context.Context, hash string) (account *accounts.Account, err error) {
-	err = r.db.FindOne(ctx, bson.M{"verification_hash": hash}).Decode(&account)
+	err = r.db.FindOne(ctx, bson.M{"validation_hash": hash}).Decode(&account)
 	if err != nil {
 		fmt.Println(err)
 		switch err.Error() {
@@ -61,4 +62,21 @@ func (r *MongoDBAccountsRepository) GetAccountsByValidationHash(ctx context.Cont
 	}
 
 	return account, nil
+}
+
+func (r *MongoDBAccountsRepository) UpdateAccount(ctx context.Context, ID string, account *accounts.Account) (success bool, err error) {
+	id, err := primitive.ObjectIDFromHex(ID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Updating ID %v with %v \n", ID, account)
+	filter := bson.M{"_id": id}
+	update := bson.M{"$set": bson.M{"status": account.Status}}
+	result, err := r.db.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return false, err
+	}
+	fmt.Println(result.ModifiedCount)
+	success = result.ModifiedCount == 1
+	return success, nil
 }

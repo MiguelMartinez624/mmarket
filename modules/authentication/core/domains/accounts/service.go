@@ -2,6 +2,7 @@ package accounts
 
 import (
 	"context"
+	"errors"
 )
 
 // Service contains the logic of this domain, accounts it use its the gate
@@ -137,6 +138,13 @@ func (cs *Service) ValidateAccountWithHash(ctx context.Context, hash string) (ac
 	acc.Status = Active
 
 	//Need yo Update
+	success, err := cs.accountRepository.UpdateAccount(ctx, acc.ID, acc)
+	if err != nil {
+		return nil, err
+	}
+	if !success {
+		return nil, errors.New("Cound update,")
+	}
 
 	return acc, nil
 }

@@ -35,6 +35,11 @@ func (r *MuckRepository) GetAccountsByValidationHash(ctx context.Context, hash s
 	return
 }
 
+func (r *MuckRepository) UpdateAccount(ctx context.Context, ID string, acc *accounts.Account) (success bool, err error) {
+	AccountsStore[ID] = *acc
+	return true, nil
+}
+
 //Helper funtion to modify behavior
 func SaveAccount(ctx context.Context, creds *accounts.Account) (ID string, err error) {
 	creds.ID = string(len(AccountsStore))

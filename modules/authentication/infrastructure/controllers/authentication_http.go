@@ -60,6 +60,7 @@ func (a *AuthenticationHTTP) SignUp(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "Check you email for confirmation code")
 }
+
 func (a *AuthenticationHTTP) ValidateAccount(w http.ResponseWriter, r *http.Request) {
 	code := mux.Vars(r)["validation_code"]
 
