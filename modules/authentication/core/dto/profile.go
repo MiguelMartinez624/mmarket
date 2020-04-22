@@ -5,4 +5,5 @@ type Profile struct {
 	AccountID string
 	FirstName string
 	LastName  string
+	Email     string
 }

@@ -29,3 +29,10 @@ type MissingParamError struct {
 func (e MissingParamError) Error() string {
 	return fmt.Sprintf("missing [%v] paramerter", e.Param)
 }
+
+type NoContactsOnProfileError struct {
+}
+
+func (e NoContactsOnProfileError) Error() string {
+	return fmt.Sprintf("profile must have a least 1 contact info")
+}

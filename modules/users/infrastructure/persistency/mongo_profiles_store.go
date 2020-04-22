@@ -33,3 +33,6 @@ func (s *MongoDBProfileStore) StoreProfile(ctx context.Context, profile *profile
 func (s *MongoDBProfileStore) FindProfileByID(ctx context.Context, ID string) (profile *profiles.Profile, err error) {
 	return
 }
+func (s *MongoDBProfileStore) FindProfileByAccountID(ctx context.Context, accountId string) (profile *profiles.Profile, err error) {
+	return
+}

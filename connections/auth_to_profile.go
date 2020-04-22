@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	authDto "github.com/miguelmartinez624/mmarket/modules/authentication/core/dto"
-	"github.com/miguelmartinez624/mmarket/modules/users"
-	pd "github.com/miguelmartinez624/mmarket/modules/users/domains/profile"
+	users "github.com/miguelmartinez624/mmarket/modules/users/core"
+	pd "github.com/miguelmartinez624/mmarket/modules/users/core/domains/profiles"
 )
 
 func AuthToProfileConnection(u *users.Module) *APC {

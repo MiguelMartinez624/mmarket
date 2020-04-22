@@ -32,12 +32,17 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 	}
 
 	fmt.Printf("enviar a comunication %v", keys.VerificationHash)
+
+	// Create a profile information and then pass to the profiles module to
+	// create the profile linked to this account
 	newProfile := dto.Profile{
 		AccountID: keys.AccountID,
 		FirstName: register.FirstName,
 		LastName:  register.LastName,
+		Email:     register.Email,
 	}
 
+	// Comunication between the profile and authentication module to create profile
 	success, err = m.profileModule.CreateProfile(&newProfile)
 	if err != nil {
 		//handle what kind of error cud happend and retry probably
@@ -59,6 +64,7 @@ func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccoun
 
 	return
 }
+
 func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool, err error) {
 	success, err = m.AccountsService.ValidateAccountWithHash(ctx, hash)
 	if err != nil {
