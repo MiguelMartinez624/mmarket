@@ -40,3 +40,7 @@ func (s *MuckProfileStore) FindProfileByAccountID(ctx context.Context, accountID
 
 	return
 }
+func (s *MuckProfileStore) FindContactByID(ctx context.Context, contactID string) (profile *profiles.ContactInfo, err error) {
+
+	return
+}

@@ -17,6 +17,9 @@ func (r *MuckProfileModule) GetProfileByAccountID(accID string) (profile *dto.Pr
 func (r *MuckProfileModule) CreateProfile(profile *dto.Profile) (success bool, err error) {
 	return r.CreateProfileFunc(profile)
 }
+func (r *MuckProfileModule) ValidateEmail(accountId string) (success bool, err error) {
+	return true, nil
+}
 
 //Success cases
 func CreateProfileSuccess(profile *dto.Profile) (success bool, err error) {

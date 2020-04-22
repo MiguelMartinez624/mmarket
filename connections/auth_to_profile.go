@@ -32,6 +32,22 @@ func (c *APC) CreateProfile(profile *authDto.Profile) (success bool, err error) 
 	return true, nil
 }
 
-func (c *APC) GetProfileByAccountID(accID string) (account *authDto.Profile, err error) {
+func (c *APC) GetProfileByAccountID(accID string) (profile *authDto.Profile, err error) {
+	ctx := context.TODO()
+	p, err := c.m.GetAccountProfile(ctx, accID)
+	if err != nil {
+		return nil, err
+	}
+	profile = &authDto.Profile{
+		AccountID: p.AccountID,
+		Email:     p.Contacts[0].Value,
+		FirstName: p.FirstName,
+		LastName:  p.LastName,
+		ID:        p.ID}
+
+	return profile, nil
+}
+
+func (c *APC) ValidateEmail(accID string) (success bool, err error) {
 	return
 }

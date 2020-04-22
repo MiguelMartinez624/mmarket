@@ -18,5 +18,5 @@ func (b BcryptEncripter) ValidateHash(original string, underTest string) (succes
 }
 
 func (b BcryptEncripter) GenerateValidationHash(key string, seed string) (hash string, err error) {
-	return "vlaidat", nil
+	return "hash", nil
 }
