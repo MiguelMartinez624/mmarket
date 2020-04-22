@@ -28,6 +28,7 @@ func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Module {
 
 	r.HandleFunc("/signin", httpController.Signin).Methods("POST")
 	r.HandleFunc("/signup", httpController.SignUp).Methods("POST")
+	r.HandleFunc("/validate/{validation_code}", httpController.ValidateAccount).Methods("get")
 
 	http.Handle("/", r)
 	return auth

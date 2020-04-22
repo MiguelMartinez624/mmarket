@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/dto"
 )
@@ -47,6 +48,22 @@ func (a *AuthenticationHTTP) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	success, err := a.auth.RegisterAccounts(r.Context(), &dto)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if !success {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, "Check you email for confirmation code")
+}
+func (a *AuthenticationHTTP) ValidateAccount(w http.ResponseWriter, r *http.Request) {
+	code := mux.Vars(r)["validation_code"]
+
+	success, err := a.auth.ValidateAccount(r.Context(), code)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
