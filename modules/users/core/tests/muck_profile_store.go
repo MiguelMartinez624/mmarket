@@ -44,3 +44,7 @@ func (s *MuckProfileStore) FindContactByID(ctx context.Context, contactID string
 
 	return
 }
+func (s *MuckProfileStore) UpdateProfile(ctx context.Context, ID string, profile *profiles.Profile) (success bool, err error) {
+
+	return
+}

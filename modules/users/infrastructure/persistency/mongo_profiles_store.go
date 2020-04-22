@@ -62,7 +62,11 @@ func (s *MongoDBProfileStore) FindProfileByAccountID(ctx context.Context, accoun
 
 	return
 }
-
-func (s *MongoDBProfileStore) FindContactByID(ctx context.Context, contactId string) (profile *profiles.ContactInfo, err error) {
-	return
+func (s *MongoDBProfileStore) UpdateProfile(ctx context.Context, ID string, profile *profiles.Profile) (success bool, err error) {
+	r, err := s.db.Collection("profiles").UpdateOne(ctx, bson.M{"_id": ID}, profile)
+	if err != nil {
+		return false, err
+	}
+	success = r.ModifiedCount == 1
+	return success, nil
 }

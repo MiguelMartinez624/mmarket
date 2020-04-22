@@ -8,4 +8,6 @@ type Store interface {
 	FindProfileByID(ctx context.Context, ID string) (profile *Profile, err error)
 
 	FindProfileByAccountID(ctx context.Context, accountID string) (profile *Profile, err error)
+
+	UpdateProfile(ctx context.Context, ID string, profile *Profile) (success bool, err error)
 }

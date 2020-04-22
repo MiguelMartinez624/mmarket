@@ -44,3 +44,24 @@ func (s *Service) GetProfileByAccountID(ctx context.Context, accountID string) (
 
 	return p, err
 }
+
+func (s *Service) ValidateMainContactInfo(ctx context.Context, accountID string, valid bool) (success bool, err error) {
+	p, err := s.profileStore.FindProfileByAccountID(ctx, accountID)
+	if err != nil {
+		return false, err
+	}
+
+	for _, cont := range p.Contacts {
+		if cont.ItsMain == true {
+			cont.ItsVerified = valid
+			break
+		}
+	}
+
+	// update the profile here.
+	success, err = s.profileStore.UpdateProfile(ctx, p.ID, p)
+	if err != nil {
+		return false, err
+	}
+	return
+}
