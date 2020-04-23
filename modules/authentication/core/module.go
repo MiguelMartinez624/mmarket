@@ -64,7 +64,7 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 	return success, err
 }
 
-func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccount) (resource interface{}, err error) {
+func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccount) (resource *dto.Profile, err error) {
 	account, err := m.AccountsService.Authenticate(ctx, loginAccount.Username, loginAccount.Password)
 	if err != nil {
 		return nil, err
