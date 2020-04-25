@@ -3,19 +3,23 @@ package core
 import (
 	"context"
 
+	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/products"
 	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/stores"
 	"github.com/miguelmartinez624/mmarket/modules/stores/core/externals"
 )
 
 type Module struct {
-	storeService   *stores.Service
-	proiflesModule externals.ProfileModule
+	storeService    *stores.Service
+	productsService *products.Service
+	proiflesModule  externals.ProfileModule
 }
 
-func NewModule(storeRepo stores.Repository) *Module {
+func NewModule(storeRepo stores.Repository, productsRepo products.Repository) *Module {
 	storeService := stores.NewService(storeRepo)
+	productService := products.NewService(productsRepo)
 
-	modules := Module{storeService: storeService}
+	//Module
+	modules := Module{storeService: storeService, productsService: productService}
 	return &modules
 }
 

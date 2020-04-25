@@ -17,6 +17,7 @@ type MongoDBStoresRepository struct {
 func NewMongoDBStoresRepository(db *mongo.Collection) *MongoDBStoresRepository {
 	return &MongoDBStoresRepository{db: db}
 }
+
 func (s *MongoDBStoresRepository) GetStoresByProfileID(ctx context.Context, profileID string) (list []stores.Store, err error) {
 	fmt.Println(profileID)
 	cursor, err := s.db.Find(ctx, bson.M{"profile_id": profileID})

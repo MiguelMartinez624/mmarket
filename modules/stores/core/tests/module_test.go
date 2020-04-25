@@ -9,6 +9,7 @@ import (
 )
 
 var store MuckStoreRepository = MuckStoreRepository{}
+var pRepo MuckProductRepository = MuckProductRepository{}
 var ctx = context.TODO()
 var profileMuck MuckProfileModule = MuckProfileModule{}
 
@@ -67,7 +68,7 @@ func CreateStoreFailMissinProfile(m *core.Module, t *testing.T) {
 
 func TestModule(t *testing.T) {
 
-	module := core.NewModule(&store)
+	module := core.NewModule(&store, &pRepo)
 	module.ConnectToProfiles(profileMuck)
 	ModuleSuite(module, t)
 }

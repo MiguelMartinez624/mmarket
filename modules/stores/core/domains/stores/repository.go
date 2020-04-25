@@ -3,7 +3,7 @@ package stores
 import "context"
 
 type Repository interface {
-	GetStoresByProfileID(ctx context.Context, accountID string) (stores []Store, err error)
+	GetStoresByProfileID(ctx context.Context, profileID string) (list []Store, err error)
 
 	Save(ctx context.Context, store *Store) (ID string, err error)
 

@@ -12,7 +12,8 @@ import (
 func BuildModule(client *mongo.Client, r *mux.Router) *core.Module {
 
 	mongoStoresRepo := persistency.NewMongoDBStoresRepository(client.Database("m_market").Collection("stores"))
-	module := core.NewModule(mongoStoresRepo)
+	mongoProductsRepo := persistency.NewMongoDBProductsRepository(client.Database("m_market").Collection("products"))
+	module := core.NewModule(mongoStoresRepo, mongoProductsRepo)
 
 	//Http Controller
 	httpController := gateway.NewHttpController(module)
