@@ -27,13 +27,13 @@ func (a *AuthenticationHTTP) Signin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	account, err := a.auth.Authenticate(r.Context(), &dto)
+	token, err := a.auth.Authenticate(r.Context(), &dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	json.NewEncoder(w).Encode(&account)
+	fmt.Fprint(w, token)
+	// json.NewEncoder(w).Encode(&account)
 
 }
 

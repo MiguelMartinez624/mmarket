@@ -23,3 +23,7 @@ type MuckTokenManager struct{}
 func (t MuckTokenManager) GenerateToken(account *accounts.Account) (token string, err error) {
 	return "token_lol", nil
 }
+func (t MuckTokenManager) ValidateToken(token string) (accountId string, err error) {
+
+	return "", nil
+}

@@ -96,6 +96,11 @@ func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool
 
 	return true, nil
 }
+func (m *Module) ValidateToken(ctx context.Context, token string) (acccountId string, err error) {
+
+	return m.tokenManager.ValidateToken(token)
+
+}
 
 func (m *Module) ConnectToProfiles(pm external.ProfileModule) {
 	m.profileModule = pm

@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/miguelmartinez624/mmarket/connections"
+	"github.com/miguelmartinez624/mmarket/middlewares"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication"
 	"github.com/miguelmartinez624/mmarket/modules/users"
 )
@@ -24,7 +25,7 @@ func main() {
 	r := mux.NewRouter()
 	//AuthenticationModule
 	authModule := auth.BuildAuthModule(client, r)
-
+	middlewares.SetAuthModule(authModule)
 	usersModule := users.BuildUsersModule(client, r)
 
 	authModule.ConnectToProfiles(connections.AuthToProfileConnection(usersModule))

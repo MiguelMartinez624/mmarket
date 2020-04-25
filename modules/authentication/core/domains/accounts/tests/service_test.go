@@ -3,7 +3,7 @@ package tests
 import (
 	"testing"
 
-	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains//accounts"
+	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
 )
 
 type ServiceTestFunction func(s *accounts.Service, t *testing.T)
