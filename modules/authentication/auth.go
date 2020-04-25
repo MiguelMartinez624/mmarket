@@ -18,8 +18,8 @@ func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Module {
 
 	mongoCredsRepo := persistency.NewMongoDBAccountsRepository(client.Database("m_market").Collection("accounts"))
 	bcryptEncripter := utils.BcryptEncripter{}
-
-	auth := authModule.NewAuthentication(mongoCredsRepo, bcryptEncripter)
+	jwtToken := &utils.JWTTokenManager{}
+	auth := authModule.NewAuthentication(mongoCredsRepo, bcryptEncripter, jwtToken)
 
 	//Http Controller
 	httpController := controllers.NewAuthHTTP(auth)

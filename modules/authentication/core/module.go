@@ -15,13 +15,16 @@ type Module struct {
 	AccountsService    *accounts.Service
 	LoginAttempService *records.Service
 
+	tokenManager  TokenManager
 	profileModule external.ProfileModule
 }
 
-func NewAuthentication(accountRepository accounts.Repository, encrypter accounts.Encrypter) *Module {
+func NewAuthentication(accountRepository accounts.Repository, encrypter accounts.Encrypter, tokenManager TokenManager) *Module {
 	credService := accounts.NewService(accountRepository, encrypter)
 
-	auth := Module{AccountsService: credService}
+	auth := Module{
+		AccountsService: credService,
+		tokenManager:    tokenManager}
 	return &auth
 }
 
@@ -64,17 +67,23 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 	return success, err
 }
 
-func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccount) (resource *dto.Profile, err error) {
+func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccount) (token string, err error) {
 	account, err := m.AccountsService.Authenticate(ctx, loginAccount.Username, loginAccount.Password)
 	if err != nil {
-		return nil, err
-	}
-	resource, err = m.profileModule.GetProfileByAccountID(account.ID)
-	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return
+	// profile, err := m.profileModule.GetProfileByAccountID(account.ID)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	token, err = m.tokenManager.GenerateToken(account)
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
 }
 
 func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool, err error) {

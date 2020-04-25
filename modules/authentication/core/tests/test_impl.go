@@ -1,5 +1,7 @@
 package tests
 
+import "github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
+
 type TestEncripter struct{}
 
 func (e *TestEncripter) ValidateHash(original string, underTest string) (success bool, err error) {
@@ -14,4 +16,10 @@ func (e *TestEncripter) GenerateValidationHash(key string, seed string) (hast st
 }
 func (e *TestEncripter) HashPassword(password string) (hash string, err error) {
 	return password, nil
+}
+
+type MuckTokenManager struct{}
+
+func (t MuckTokenManager) GenerateToken(account *accounts.Account) (token string, err error) {
+	return "token_lol", nil
 }

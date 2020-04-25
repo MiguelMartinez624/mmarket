@@ -119,8 +119,8 @@ func VerifiedAccountSuccess(s *auth.Module, t *testing.T) {
 func TestModule(t *testing.T) {
 
 	encrypter := &TestEncripter{}
-
-	module := auth.NewAuthentication(store, encrypter)
+	tokenManager := MuckTokenManager{}
+	module := auth.NewAuthentication(store, encrypter, tokenManager)
 	module.ConnectToProfiles(profileMuck)
 	ModuleSuite(module, t)
 }
