@@ -39,6 +39,7 @@ func (a *HttpController) CreateStore(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	fmt.Println(store)
 	ID, err := a.stores.CreateStore(r.Context(), &store)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

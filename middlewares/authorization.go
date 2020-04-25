@@ -37,10 +37,8 @@ func IsAuthorized(callback func(http.ResponseWriter, *http.Request)) http.Handle
 func OwnResource(callback func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if user := r.Context().Value("user"); user != nil {
-			fmt.Println(user)
 			rProfile := mux.Vars(r)["profile_id"]
 			tProfile := user.(*auth.TokenClaims).ProfileID
-			fmt.Printf("matching %v with %v \n", rProfile, tProfile)
 			//If not logged as the profile will be unhourtise
 			// TODO make better error forthis.
 			if rProfile != tProfile {

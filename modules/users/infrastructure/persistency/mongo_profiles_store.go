@@ -32,7 +32,13 @@ func (s *MongoDBProfileStore) StoreProfile(ctx context.Context, profile *profile
 }
 
 func (s *MongoDBProfileStore) FindProfileByID(ctx context.Context, ID string) (profile *profiles.Profile, err error) {
-	err = s.db.Collection("profiles").FindOne(ctx, bson.M{"id": ID}).Decode(&profile)
+
+	monId, err := primitive.ObjectIDFromHex(ID)
+	if err != nil {
+		return nil, err
+	}
+
+	err = s.db.Collection("profiles").FindOne(ctx, bson.M{"_id": monId}).Decode(&profile)
 	if err != nil {
 		fmt.Println(err)
 		switch err.Error() {

@@ -25,7 +25,7 @@ func (m *Module) ConnectToProfiles(connection externals.ProfileModule) {
 
 func (m *Module) CreateStore(ctx context.Context, store *stores.Store) (ID string, err error) {
 
-	_, err = m.proiflesModule.GetProfileByID(ctx, ID)
+	_, err = m.proiflesModule.GetProfileByID(ctx, store.ProfileID)
 	if err != nil {
 		return "", err
 	}
