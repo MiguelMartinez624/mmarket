@@ -1,8 +1,8 @@
 package stores
 
 type Store struct {
-	ID        string
-	ProfileID string
-	Name      string
-	Address   Address
+	ID        string  `json:"id" bson:"_id ,omitempty"`
+	ProfileID string  `json:"profile_id" bson:"profile_id ,omitempty"`
+	Name      string  `json:"name" bson:"name ,omitempty"`
+	Address   Address `json:"adress" bson:"address ,omitempty"`
 }

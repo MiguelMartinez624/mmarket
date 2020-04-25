@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
 	users "github.com/miguelmartinez624/mmarket/modules/users/core"
 )
 
@@ -17,10 +18,10 @@ func NewHttpController(users *users.Module) *HttpController {
 }
 
 func (a *HttpController) Me(w http.ResponseWriter, r *http.Request) {
-	if accountId := r.Context().Value("accountID"); accountId != nil {
+	if user := r.Context().Value("user"); user != nil {
 		w.WriteHeader(http.StatusOK)
-		fmt.Printf("accountID %v", accountId)
-		profile, err := a.users.GetAccountProfile(r.Context(), accountId.(string))
+		fmt.Printf("accountID %v", user)
+		profile, err := a.users.GetAccountProfile(r.Context(), user.(*auth.TokenClaims).AccountID)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return

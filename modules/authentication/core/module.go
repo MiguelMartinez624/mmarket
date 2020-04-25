@@ -73,12 +73,12 @@ func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccoun
 		return "", err
 	}
 
-	// profile, err := m.profileModule.GetProfileByAccountID(account.ID)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	profile, err := m.profileModule.GetProfileByAccountID(account.ID)
+	if err != nil {
+		return "", err
+	}
 
-	token, err = m.tokenManager.GenerateToken(account)
+	token, err = m.tokenManager.GenerateToken(account, profile.ID)
 	if err != nil {
 		return "", err
 	}
@@ -96,7 +96,7 @@ func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool
 
 	return true, nil
 }
-func (m *Module) ValidateToken(ctx context.Context, token string) (acccountId string, err error) {
+func (m *Module) ValidateToken(ctx context.Context, token string) (claims *TokenClaims, err error) {
 
 	return m.tokenManager.ValidateToken(token)
 

@@ -14,6 +14,7 @@ import (
 	"github.com/miguelmartinez624/mmarket/connections"
 	"github.com/miguelmartinez624/mmarket/middlewares"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication"
+	"github.com/miguelmartinez624/mmarket/modules/stores"
 	"github.com/miguelmartinez624/mmarket/modules/users"
 )
 
@@ -25,11 +26,17 @@ func main() {
 	r := mux.NewRouter()
 	//AuthenticationModule
 	authModule := auth.BuildAuthModule(client, r)
-	middlewares.SetAuthModule(authModule)
 	usersModule := users.BuildUsersModule(client, r)
+	storsModule := stores.BuildModule(client, r)
 
+	// Mount middldeware dependencies
+	middlewares.SetAuthModule(authModule)
+
+	// Mount connection inter modules
 	authModule.ConnectToProfiles(connections.AuthToProfileConnection(usersModule))
+	storsModule.ConnectToProfiles(connections.StoreToProfileConnection(usersModule))
 
+	// Service start
 	srv := &http.Server{
 		Handler: r,
 		Addr:    "127.0.0.1:8000",

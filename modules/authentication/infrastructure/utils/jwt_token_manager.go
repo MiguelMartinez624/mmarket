@@ -1,32 +1,22 @@
 package utils
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/dgrijalva/jwt-go"
+	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
 )
 
 var secretSign = []byte("secretclae")
 
-type TokenClaims struct {
-	AccountID string `json:"account_id"`
-}
-
-func (t TokenClaims) Valid() error {
-	if t.AccountID == "" {
-		return errors.New("missing account ID")
-	}
-	return nil
-}
-
 type JWTTokenManager struct{}
 
-func (t JWTTokenManager) GenerateToken(account *accounts.Account) (token string, err error) {
+func (t JWTTokenManager) GenerateToken(account *accounts.Account, profileID string) (token string, err error) {
 
-	claims := TokenClaims{
+	claims := auth.TokenClaims{
 		AccountID: account.ID,
+		ProfileID: profileID,
 	}
 
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -39,10 +29,10 @@ func (t JWTTokenManager) GenerateToken(account *accounts.Account) (token string,
 }
 
 // ValidateToken use to validate json token ang get claims data
-func (t JWTTokenManager) ValidateToken(tokenString string) (accountId string, err error) {
+func (t JWTTokenManager) ValidateToken(tokenString string) (claims *auth.TokenClaims, err error) {
 
 	// Parse the token
-	claims := &TokenClaims{}
+	claims = &auth.TokenClaims{}
 	tk, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		// since we only use the one private key to sign the tokens,
 		// we also only use its public counter part to verify
@@ -50,14 +40,13 @@ func (t JWTTokenManager) ValidateToken(tokenString string) (accountId string, er
 		return secretSign, nil
 	})
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	err = tk.Claims.Valid()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-
-	accountId = claims.AccountID
-	return accountId, nil
+	fmt.Println(claims)
+	return claims, nil
 }

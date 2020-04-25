@@ -17,7 +17,7 @@ func BuildUsersModule(client *mongo.Client, r *mux.Router) *users.Module {
 	//Http Controller
 	httpController := gateway.NewHttpController(users)
 
-	r.Handle("/users/me", middlewares.IsAuthorozed(httpController.Me)).Methods("GET")
+	r.Handle("/users/me", middlewares.IsAuthorized(httpController.Me)).Methods("GET")
 
 	return users
 }
