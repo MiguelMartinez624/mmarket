@@ -7,12 +7,17 @@ import (
 
 	"github.com/gorilla/mux"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
+	sm "github.com/miguelmartinez624/mmarket/modules/stores/core"
 )
 
 var authModule *auth.Module
+var storesModule *sm.Module
 
 func SetAuthModule(module *auth.Module) {
 	authModule = module
+}
+func SetStoresModule(module *sm.Module) {
+	storesModule = module
 }
 
 func IsAuthorized(callback func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
@@ -44,6 +49,26 @@ func OwnResource(callback func(http.ResponseWriter, *http.Request)) http.Handler
 			if rProfile != tProfile {
 
 				fmt.Fprintf(w, "no authorise to resource")
+				return
+			}
+
+			callback(w, r)
+
+		}
+	})
+}
+func OwnStore(callback func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if user := r.Context().Value("user"); user != nil {
+
+			profileID := user.(*auth.TokenClaims).ProfileID
+			storeID := mux.Vars(r)["store_id"]
+
+			_, err := storesModule.GetStoreByIDAndProfileID(r.Context(), storeID, profileID)
+			if err != nil {
+
+				fmt.Fprintf(w, "no authorise to resource")
+
 				return
 			}
 

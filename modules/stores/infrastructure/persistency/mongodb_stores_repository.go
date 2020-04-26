@@ -49,3 +49,42 @@ func (s *MongoDBStoresRepository) Save(ctx context.Context, store *stores.Store)
 func (s *MongoDBStoresRepository) Update(ctx context.Context, ID string, store *stores.Store) (success bool, err error) {
 	return
 }
+
+func (s *MongoDBStoresRepository) GetByID(ctx context.Context, ID string) (item *stores.Store, err error) {
+	monId, err := primitive.ObjectIDFromHex(ID)
+	if err != nil {
+		return nil, err
+	}
+
+	err = s.db.FindOne(ctx, bson.M{"id": monId}).Decode(&item)
+	if err != nil {
+		switch err.Error() {
+		case "mongo: no documents in result":
+			return nil, err
+		default:
+			return nil, err
+		}
+
+	}
+
+	return item, nil
+}
+func (s *MongoDBStoresRepository) GetStoreByIDAndProfileID(ctx context.Context, storeID string, profileID string) (item *stores.Store, err error) {
+	monId, err := primitive.ObjectIDFromHex(storeID)
+	if err != nil {
+		return nil, err
+	}
+
+	err = s.db.FindOne(ctx, bson.M{"id": monId, "profile_id": profileID}).Decode(&item)
+	if err != nil {
+		switch err.Error() {
+		case "mongo: no documents in result":
+			return nil, err
+		default:
+			return nil, err
+		}
+
+	}
+
+	return item, nil
+}

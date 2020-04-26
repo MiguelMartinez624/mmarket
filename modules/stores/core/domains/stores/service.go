@@ -45,3 +45,17 @@ func (s *Service) GetUserStores(ctx context.Context, profileID string) (list []S
 
 	return
 }
+
+func (s *Service) GetStoreByID(ctx context.Context, ID string) (store *Store, err error) {
+	if ID == "" {
+		return nil, errors.New("missing parameter StoreID")
+	}
+
+	store, err = s.repo.GetByID(ctx, ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return
+
+}

@@ -21,6 +21,7 @@ func BuildModule(client *mongo.Client, r *mux.Router) *core.Module {
 	//we add endpoints here to mux
 	r.HandleFunc("/{profile_id}/stores", httpController.GetUserStores).Methods("GET") // probably later on make a me stores
 	r.HandleFunc("/{profile_id}/stores", middlewares.IsAuthorized(middlewares.OwnResource(httpController.CreateStore))).Methods("POST")
+	r.HandleFunc("/{profile_id}/stores/{store_id}", middlewares.IsAuthorized(middlewares.OwnStore(httpController.CreateStore))).Methods("POST")
 
 	return module
 }

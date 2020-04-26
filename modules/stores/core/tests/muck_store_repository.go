@@ -41,3 +41,13 @@ func (s *MuckStoreRepository) Save(ctx context.Context, store *stores.Store) (ID
 func (s *MuckStoreRepository) Update(ctx context.Context, ID string, store *stores.Store) (success bool, err error) {
 	return true, nil
 }
+
+func (s *MuckStoreRepository) GetByID(ctx context.Context, ID string) (item *stores.Store, err error) {
+
+	return
+}
+
+func (s *MuckStoreRepository) GetStoreByIDAndProfileID(ctx context.Context, storeID string, profileID string) (item *stores.Store, err error) {
+
+	return
+}

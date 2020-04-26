@@ -36,7 +36,22 @@ func (m *Module) CreateStore(ctx context.Context, store *stores.Store) (ID strin
 
 	return m.storeService.CreateStore(ctx, store)
 }
+
 func (m *Module) GetUserStores(ctx context.Context, profileID string) (list []stores.Store, err error) {
 
 	return m.storeService.GetUserStores(ctx, profileID)
+}
+
+func (m *Module) CreateStoreProduct(ctx context.Context, product *products.Product) (ID string, err error) {
+
+	_, err = m.storeService.GetStoreByID(ctx, product.StoreID)
+	if err != nil {
+		return "", err
+	}
+
+	return m.productsService.CreateProduct(ctx, product)
+}
+
+func (m *Module) GetStoreByIDAndProfileID(ctx context.Context, storeID string, profileID string) (store *stores.Store, err error) {
+	return
 }
