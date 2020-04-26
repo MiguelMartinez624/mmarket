@@ -1,6 +1,9 @@
 package products
 
-import "context"
+import (
+	"context"
+	"errors"
+)
 
 type Service struct {
 	repository Repository
@@ -23,4 +26,13 @@ func (s *Service) CreateProduct(ctx context.Context, product *Product) (ID strin
 	}
 
 	return ID, nil
+}
+
+func (s *Service) GetProductsByStoreID(ctx context.Context, storeID string) (list []*Product, err error) {
+	if storeID == "" {
+		return nil, errors.New("missing parameter StoreID")
+	}
+
+	return s.repository.GetAllByStoreID(ctx, storeID)
+
 }

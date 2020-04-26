@@ -66,3 +66,14 @@ func (a *HttpController) CreateStoreProduct(w http.ResponseWriter, r *http.Reque
 
 	fmt.Fprintf(w, "create new store with ID: %v", ID)
 }
+
+func (a *HttpController) GetStoreProduct(w http.ResponseWriter, r *http.Request) {
+	storeID := mux.Vars(r)["store_id"]
+
+	list, err := a.stores.GetStoreProducts(r.Context(), storeID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	json.NewEncoder(w).Encode(&list)
+}

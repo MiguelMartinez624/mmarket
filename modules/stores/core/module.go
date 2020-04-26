@@ -52,6 +52,11 @@ func (m *Module) CreateStoreProduct(ctx context.Context, product *products.Produ
 	return m.productsService.CreateProduct(ctx, product)
 }
 
+func (m *Module) GetStoreProducts(ctx context.Context, storeID string) (list []*products.Product, err error) {
+
+	return m.productsService.GetProductsByStoreID(ctx, storeID)
+}
+
 func (m *Module) GetStoreByIDAndProfileID(ctx context.Context, storeID string, profileID string) (store *stores.Store, err error) {
 	return
 }
