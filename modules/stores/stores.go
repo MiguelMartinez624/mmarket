@@ -25,6 +25,7 @@ func BuildModule(client *mongo.Client, r *mux.Router) *core.Module {
 	//Store products endpoints
 	r.HandleFunc("/{profile_id}/stores/{store_id}/products", middlewares.IsAuthorized(middlewares.OwnStore(httpController.GetStoreProduct))).Methods("GET")
 	r.HandleFunc("/{profile_id}/stores/{store_id}/products", middlewares.IsAuthorized(middlewares.OwnStore(httpController.CreateStoreProduct))).Methods("POST")
+	r.HandleFunc("/{profile_id}/stores/{store_id}/products/{product_id}", middlewares.IsAuthorized(middlewares.OwnStore(httpController.UpdateProduct))).Methods("POST")
 
 	return module
 }

@@ -30,14 +30,15 @@ func (s *MongoDBProductsRepository) Save(ctx context.Context, store *products.Pr
 	return fmt.Sprintf("%v", result.InsertedID), nil
 }
 
-func (s *MongoDBProductsRepository) Update(ctx context.Context, ID string, store *products.Product) (success bool, err error) {
+func (s *MongoDBProductsRepository) Update(ctx context.Context, ID string, product *products.Product) (success bool, err error) {
 	id, err := primitive.ObjectIDFromHex(ID)
 	if err != nil {
 		return false, err
 	}
-	fmt.Printf("Updating ID %v with %v \n", ID, store)
+	fmt.Printf("Updating ID %v with %v \n", ID, product)
 	filter := bson.M{"_id": id}
-	result, err := s.db.UpdateOne(ctx, filter, store)
+	update := bson.M{"$set": product}
+	result, err := s.db.UpdateOne(ctx, filter, update)
 	if err != nil {
 		return false, err
 	}
@@ -71,7 +72,7 @@ func (s *MongoDBProductsRepository) GetByID(ctx context.Context, ID string) (ite
 		return nil, err
 	}
 
-	err = s.db.FindOne(ctx, bson.M{"id": monId}).Decode(&item)
+	err = s.db.FindOne(ctx, bson.M{"_id": monId}).Decode(&item)
 	if err != nil {
 		switch err.Error() {
 		case "mongo: no documents in result":

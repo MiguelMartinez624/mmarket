@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/products"
 	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/stores"
@@ -53,10 +54,14 @@ func (m *Module) CreateStoreProduct(ctx context.Context, product *products.Produ
 }
 
 func (m *Module) GetStoreProducts(ctx context.Context, storeID string) (list []*products.Product, err error) {
-
 	return m.productsService.GetProductsByStoreID(ctx, storeID)
 }
 
 func (m *Module) GetStoreByIDAndProfileID(ctx context.Context, storeID string, profileID string) (store *stores.Store, err error) {
 	return m.storeService.GetStoreByIDAndProfileID(ctx, storeID, profileID)
+}
+
+func (m *Module) UpdateProduct(ctx context.Context, productID string, product *products.Product) (success bool, err error) {
+	fmt.Println("Updating")
+	return m.productsService.UpdateProduct(ctx, productID, product)
 }

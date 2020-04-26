@@ -79,3 +79,21 @@ func (a *HttpController) GetStoreProduct(w http.ResponseWriter, r *http.Request)
 	}
 	json.NewEncoder(w).Encode(&list)
 }
+
+func (a *HttpController) UpdateProduct(w http.ResponseWriter, r *http.Request) {
+	var p products.Product
+	pID := mux.Vars(r)["product_id"]
+	err := json.NewDecoder(r.Body).Decode(&p)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	ok, err := a.stores.UpdateProduct(r.Context(), pID, &p)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, "product updated: %v", ok)
+}

@@ -34,5 +34,28 @@ func (s *Service) GetProductsByStoreID(ctx context.Context, storeID string) (lis
 	}
 
 	return s.repository.GetAllByStoreID(ctx, storeID)
+}
+func (s *Service) UpdateProduct(ctx context.Context, ID string, product *Product) (success bool, err error) {
+	if ID == "" {
+		return false, errors.New("missing parameter StoreID")
+	}
+	if product == nil {
+		return false, errors.New("missing parameter product")
+	}
+	err = s.validator.Validate(product)
+	if err != nil {
+		return false, err
+	}
 
+	_, err = s.repository.GetByID(ctx, ID)
+	if err != nil {
+		return false, err
+	}
+
+	success, err = s.repository.Update(ctx, ID, product)
+	if err != nil {
+		return false, err
+	}
+
+	return
 }
