@@ -63,11 +63,10 @@ func OwnStore(callback func(http.ResponseWriter, *http.Request)) http.HandlerFun
 
 			profileID := user.(*auth.TokenClaims).ProfileID
 			storeID := mux.Vars(r)["store_id"]
-
 			_, err := storesModule.GetStoreByIDAndProfileID(r.Context(), storeID, profileID)
 			if err != nil {
-
-				fmt.Fprintf(w, "no authorise to resource")
+				fmt.Println(err)
+				fmt.Fprintf(w, "no authorize to this store")
 
 				return
 			}

@@ -11,7 +11,7 @@ type Service struct {
 }
 
 func NewService(repo Repository) *Service {
-	return &Service{repository: repo}
+	return &Service{repository: repo, validator: &Validator{}}
 }
 
 func (s *Service) CreateProduct(ctx context.Context, product *Product) (ID string, err error) {

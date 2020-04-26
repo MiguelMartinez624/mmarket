@@ -58,5 +58,5 @@ func (m *Module) GetStoreProducts(ctx context.Context, storeID string) (list []*
 }
 
 func (m *Module) GetStoreByIDAndProfileID(ctx context.Context, storeID string, profileID string) (store *stores.Store, err error) {
-	return
+	return m.storeService.GetStoreByIDAndProfileID(ctx, storeID, profileID)
 }

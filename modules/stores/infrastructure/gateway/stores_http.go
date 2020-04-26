@@ -3,6 +3,7 @@ package gateway
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -58,6 +59,7 @@ func (a *HttpController) CreateStoreProduct(w http.ResponseWriter, r *http.Reque
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	log.Println("Attemptin to create product.")
 	ID, err := a.stores.CreateStoreProduct(r.Context(), &p)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

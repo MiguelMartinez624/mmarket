@@ -56,7 +56,7 @@ func (s *MongoDBStoresRepository) GetByID(ctx context.Context, ID string) (item 
 		return nil, err
 	}
 
-	err = s.db.FindOne(ctx, bson.M{"id": monId}).Decode(&item)
+	err = s.db.FindOne(ctx, bson.M{"_id": monId}).Decode(&item)
 	if err != nil {
 		switch err.Error() {
 		case "mongo: no documents in result":
@@ -75,11 +75,11 @@ func (s *MongoDBStoresRepository) GetStoreByIDAndProfileID(ctx context.Context, 
 		return nil, err
 	}
 
-	err = s.db.FindOne(ctx, bson.M{"id": monId, "profile_id": profileID}).Decode(&item)
+	err = s.db.FindOne(ctx, bson.M{"_id": monId, "profile_id": profileID}).Decode(&item)
 	if err != nil {
 		switch err.Error() {
 		case "mongo: no documents in result":
-			return nil, err
+			return nil, stores.ErrStoreNotFound{}
 		default:
 			return nil, err
 		}

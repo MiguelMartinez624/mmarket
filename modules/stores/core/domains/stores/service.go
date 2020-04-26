@@ -3,6 +3,7 @@ package stores
 import (
 	"context"
 	"errors"
+	"fmt"
 )
 
 type Service struct {
@@ -52,10 +53,22 @@ func (s *Service) GetStoreByID(ctx context.Context, ID string) (store *Store, er
 	}
 
 	store, err = s.repo.GetByID(ctx, ID)
+	fmt.Println(store)
 	if err != nil {
 		return nil, err
 	}
 
 	return
+}
 
+func (s *Service) GetStoreByIDAndProfileID(ctx context.Context, storeID string, profileID string) (store *Store, err error) {
+	if storeID == "" {
+		return nil, ErrMissingParam{Param: "storeID"}
+	}
+	if profileID == "" {
+		return nil, ErrMissingParam{Param: "profileID"}
+	}
+
+	store, err = s.repo.GetStoreByIDAndProfileID(ctx, storeID, profileID)
+	return
 }

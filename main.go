@@ -31,6 +31,7 @@ func main() {
 
 	// Mount middldeware dependencies
 	middlewares.SetAuthModule(authModule)
+	middlewares.SetStoresModule(storsModule)
 
 	// Mount connection inter modules
 	authModule.ConnectToProfiles(connections.AuthToProfileConnection(usersModule))
