@@ -27,6 +27,7 @@ func (c *APC) CreateProfile(profile *authDto.Profile) (success bool, err error) 
 		Contacts: []pd.ContactInfo{
 			{Value: profile.Email, Channel: pd.Email},
 		},
+		Roles: []string{profile.Role},
 	}
 	_, err = c.m.CreateNewUserProfile(ctx, &p)
 	if err != nil {

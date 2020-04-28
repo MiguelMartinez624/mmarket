@@ -1,18 +1,18 @@
 package profiles
 
-type Roles = int8
+type Roles = string
 
 var (
 
 	// Client its a reference to th common user of the platform the one that will be
 	// using the service for buying
-	Client Roles = 0
+	Client Roles = "client"
 
 	// Delivery its the user that will handle P2P deliveries
-	Delivery Roles = 1
+	Delivery Roles = "delivery"
 
 	// Provider its the one who put products to sell
-	Provider Roles = 2
+	Provider Roles = "provider"
 )
 
 type Profile struct {

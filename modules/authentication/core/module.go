@@ -41,6 +41,11 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 		return false, errors.New("Email missing.")
 	}
 
+	if register.Role == "" {
+		return false, errors.New("Missing Role.")
+
+	}
+
 	keys, err := m.AccountsService.CreateAccount(ctx, register.Username, register.Password)
 	if err != nil {
 		return false, err
@@ -55,6 +60,7 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 		FirstName: register.FirstName,
 		LastName:  register.LastName,
 		Email:     register.Email,
+		Role:      register.Role,
 	}
 
 	// Comunication between the profile and authentication module to create profile
