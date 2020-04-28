@@ -6,12 +6,14 @@ import (
 	"log"
 
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
+	"github.com/miguelmartinez624/mmarket/modules/common/repositories"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type MongoDBAccountsRepository struct {
+	repositories.MongoDB
 	db *mongo.Collection
 }
 

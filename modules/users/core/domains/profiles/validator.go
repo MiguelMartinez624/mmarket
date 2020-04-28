@@ -13,6 +13,10 @@ func (v Validator) ValidateProfile(p *Profile) error {
 		return MissingFirstNameError{}
 	}
 
+	if p.Roles == nil {
+		return ErrMissinRole{}
+	}
+
 	if len(p.Contacts) == 0 {
 		return NoContactsOnProfileError{}
 	}

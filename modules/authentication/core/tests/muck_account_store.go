@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
+	"github.com/miguelmartinez624/mmarket/modules/common/repositories"
 )
 
 // In memory stored
@@ -11,14 +12,16 @@ var AccountsStore map[string]accounts.Account = make(map[string]accounts.Account
 
 //MuckRepository its a muck depency for testing
 type MuckRepository struct {
+	repositories.InMemory
 	SaveAccountFunc                 func(ctx context.Context, cre *accounts.Account) (ID string, err error)
 	GetAccountsByUserNameFunc       func(ctx context.Context, username string) (account *accounts.Account, err error)
 	GetAccountsByValidationHashFunc func(ctx context.Context, hash string) (account *accounts.Account, err error)
 }
 
-func (r *MuckRepository) SaveAccount(ctx context.Context, cre *accounts.Account) (ID string, err error) {
-	return r.SaveAccountFunc(ctx, cre)
+func (r *MuckRepository) SaveAccount(ctx context.Context, acc *accounts.Account) (ID string, err error) {
+	return r.Save(ctx, acc)
 }
+
 func (r *MuckRepository) GetAccountsByUserName(ctx context.Context, username string) (account *accounts.Account, err error) {
 	return r.GetAccountsByUserNameFunc(ctx, username)
 }
