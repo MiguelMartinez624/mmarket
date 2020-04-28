@@ -17,3 +17,6 @@ func (r InMemory) Update(ctx context.Context, ID string, entity models.Entity) (
 }
 func (r InMemory) Delete(ctx context.Context, ID string) (ok bool, err error)                { return }
 func (r InMemory) GetByID(ctx context.Context, ID string) (entity *models.Entity, err error) { return }
+func (r InMemory) GetBy(ctx context.Context, query interface{}) (entity *models.Entity, err error) {
+	return
+}

@@ -3,6 +3,8 @@ package accounts
 import (
 	"context"
 	"errors"
+
+	cErr "github.com/miguelmartinez624/mmarket/modules/common/errors"
 )
 
 // Service contains the logic of this domain, accounts it use its the gate
@@ -37,7 +39,7 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 	accounts, err := cs.accountRepository.GetAccountsByUserName(ctx, username)
 	if err != nil {
 		switch err.(type) {
-		case AccountDontExist:
+		case cErr.DontExist:
 			break
 		default:
 			return nil, err

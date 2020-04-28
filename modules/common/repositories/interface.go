@@ -7,13 +7,15 @@ import (
 )
 
 type Repository interface {
-	getAll(ctx context.Context) (list []models.Entity, err error)
+	GetAll(ctx context.Context) (list []models.Entity, err error)
 
-	save(ctx context.Context, entity models.Entity) (ID string, err error)
+	Save(ctx context.Context, entity models.Entity) (ID string, err error)
 
-	update(ctx context.Context, ID string, entity models.Entity) (ok bool, err error)
+	Update(ctx context.Context, ID string, entity models.Entity) (ok bool, err error)
 
-	delete(ctx context.Context, ID string) (ok bool, err error)
+	Delete(ctx context.Context, ID string) (ok bool, err error)
 
-	getByID(ctx context.Context, ID string) (entity *models.Entity, err error)
+	GetByID(ctx context.Context, ID string) (entity *models.Entity, err error)
+
+	GetBy(ctx context.Context, query interface{}, output interface{}) (err error)
 }
