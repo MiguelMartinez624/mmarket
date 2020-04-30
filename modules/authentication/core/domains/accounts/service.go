@@ -87,7 +87,13 @@ func (cs *Service) Authenticate(ctx context.Context, username string, password s
 
 	account, err = cs.accountRepository.GetAccountsByUserName(ctx, username)
 	if err != nil {
-		return nil, err
+		switch err.(type) {
+		case cErr.DontExist:
+			return nil, InvalidAccountsError
+
+		default:
+			return nil, err
+		}
 	}
 
 	//validate password

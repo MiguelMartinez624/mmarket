@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -36,10 +37,15 @@ func main() {
 	// Mount connection inter modules
 	authModule.ConnectToProfiles(connections.AuthToProfileConnection(usersModule))
 	storsModule.ConnectToProfiles(connections.StoreToProfileConnection(usersModule))
-
 	// Service start
+	handler := handlers.CORS(
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT"}),
+		handlers.AllowedHeaders([]string{"Accept", "Accept-Language", "Content-Type", "Content-Language", "Origin"}),
+		handlers.AllowedOrigins([]string{"*"}),
+	)(r)
+	// corsObj := handlers.AllowedOrigins([]string{"*"})
 	srv := &http.Server{
-		Handler: r,
+		Handler: handler,
 		Addr:    "127.0.0.1:8000",
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: 15 * time.Second,

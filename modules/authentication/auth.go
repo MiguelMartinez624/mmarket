@@ -26,8 +26,8 @@ func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Module {
 
 	//we add endpoints here to mux
 
-	r.HandleFunc("/signin", httpController.Signin).Methods("POST")
-	r.HandleFunc("/signup", httpController.SignUp).Methods("POST")
+	r.HandleFunc("/signin", httpController.Signin).Methods("POST", "OPTIONs")
+	r.HandleFunc("/signup", httpController.SignUp).Methods("POST", "OPTIONs")
 	r.HandleFunc("/validate/{validation_code}", httpController.ValidateAccount).Methods("get")
 
 	http.Handle("/", r)
