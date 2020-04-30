@@ -43,6 +43,7 @@ func (r *MongoDBAccountsRepository) GetAccountsByUserName(ctx context.Context, u
 func (r *MongoDBAccountsRepository) GetAccountsByValidationHash(ctx context.Context, hash string) (account *accounts.Account, err error) {
 
 	query := bson.M{"validation_hash": hash}
+	account = &accounts.Account{}
 
 	err = r.GetBy(ctx, query, account)
 	if err != nil {

@@ -143,10 +143,11 @@ func (cs *Service) ValidateAccountWithHash(ctx context.Context, hash string) (ac
 		return nil, AccountAlreadyVerifiedError
 	}
 
-	acc.Status = Active
+	//Declare data to be updated
+	updateData := &Account{Status: Active}
 
 	//Need yo Update
-	success, err := cs.accountRepository.UpdateAccount(ctx, acc.ID, acc)
+	success, err := cs.accountRepository.UpdateAccount(ctx, acc.ID, updateData)
 	if err != nil {
 		return nil, err
 	}
