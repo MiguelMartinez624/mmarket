@@ -102,10 +102,9 @@ func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool
 
 	return true, nil
 }
+
 func (m *Module) ValidateToken(ctx context.Context, token string) (claims *TokenClaims, err error) {
-
 	return m.tokenManager.ValidateToken(token)
-
 }
 
 func (m *Module) ConnectToProfiles(pm external.ProfileModule) {
