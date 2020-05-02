@@ -15,10 +15,16 @@ var (
 )
 
 type Order struct {
-	ID       string
-	StoreID  string
-	ClientID string
-	Number   string
-	Status   OrderStatus
-	Details  OrderDetails
+	ID           string
+	StoreID      string
+	CostumerID   string
+	Number       string
+	Status       OrderStatus
+	Details      *OrderDetails
+	ShippingInfo *ShippingInfo
+}
+
+type ShippingInfo struct {
+	ItsDelivery bool
+	AddressID   string
 }

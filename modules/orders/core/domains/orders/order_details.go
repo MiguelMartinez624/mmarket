@@ -7,5 +7,5 @@ type ItemsList struct {
 }
 
 type OrderDetails struct {
-	itemsID []ItemsList
+	Items []ItemsList
 }
