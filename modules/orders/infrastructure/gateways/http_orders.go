@@ -18,7 +18,7 @@ func NewHttpController(stores *core.Module) *HttpController {
 	return &HttpController{stores: stores}
 }
 
-func (c *HttpController) CreateOrder(w http.ResponseWriter, r *http.Request) {
+func (c *HttpController) CreateStoreOrder(w http.ResponseWriter, r *http.Request) {
 	storeID := mux.Vars(r)["store_id"]
 	var order orders.Order
 	err := json.NewDecoder(r.Body).Decode(&order)
@@ -27,7 +27,7 @@ func (c *HttpController) CreateOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ID, err := c.stores.CreateOrder(r.Context(), storeID, &order)
+	ID, err := c.stores.CreateStoreOrder(r.Context(), storeID, &order)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -36,6 +36,25 @@ func (c *HttpController) CreateOrder(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Created order with ID: %v", ID)
 
 }
+func (c *HttpController) CreateCostumerOrder(w http.ResponseWriter, r *http.Request) {
+	profileID := mux.Vars(r)["profile_id"]
+	var order orders.Order
+	err := json.NewDecoder(r.Body).Decode(&order)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	ID, err := c.stores.CreateProfileOrder(r.Context(), profileID, &order)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, "Created order with ID: %v", ID)
+
+}
+
 func (c *HttpController) GetStoreOrders(w http.ResponseWriter, r *http.Request) {
 	storeID := mux.Vars(r)["store_id"]
 

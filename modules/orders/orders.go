@@ -17,9 +17,12 @@ func BuildModule(client *mongo.Client, r *mux.Router) *core.Module {
 	//Http Controller
 	httpController := gateways.NewHttpController(module)
 
-	//we add endpoints here to mux
-	r.HandleFunc("/stores/{store_id}/orders", httpController.CreateOrder).Methods("POST")
+	//Store manage orders
+	r.HandleFunc("/stores/{store_id}/orders", httpController.CreateStoreOrder).Methods("POST")
 	r.HandleFunc("/stores/{store_id}/orders", httpController.GetStoreOrders).Methods("GET")
+
+	//Profile management orders
+	r.HandleFunc("/profiles/{profile_id}/orders", httpController.CreateCostumerOrder).Methods("POST")
 
 	return module
 }

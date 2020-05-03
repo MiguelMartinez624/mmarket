@@ -23,13 +23,24 @@ func (m *Module) ConnectToStores(stores externals.StoresModule) {
 	m.stores = stores
 }
 
-// CreateOrder creates a buy order on the system, when the order its created a @OrderCreatedEvent will be
-// emitted
-func (m *Module) CreateOrder(ctx context.Context, storeID string, order *orders.Order) (ID string, err error) {
+func (m *Module) CreateStoreOrder(ctx context.Context, storeID string, order *orders.Order) (ID string, err error) {
 	//Make sure that the order gts created to the id that its passed, and so you dont
 	// have to put the storeID when calling the module
 	order.StoreID = storeID
 
+	return m.CreateOrder(ctx, order)
+}
+func (m *Module) CreateProfileOrder(ctx context.Context, profileID string, order *orders.Order) (ID string, err error) {
+	//Make sure that the order gts created to the id that its passed, and so you dont
+	// have to put the storeID when calling the module
+	order.CustomerID = profileID
+
+	return m.CreateOrder(ctx, order)
+}
+
+// CreateOrder creates a buy order on the system, when the order its created a @OrderCreatedEvent will be
+// emitted
+func (m *Module) CreateOrder(ctx context.Context, order *orders.Order) (ID string, err error) {
 	// ask availability to the store
 	err = m.askProductsAvailability(order)
 	if err != nil {
