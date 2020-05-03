@@ -37,7 +37,17 @@ func (r *MongoDBOrdersRepository) GetOrderByID(ctx context.Context, ID string) (
 func (r *MongoDBOrdersRepository) GetOrdersByStoreID(ctx context.Context, storeID string) (list []orders.Order, err error) {
 
 	query := bson.M{"store_id": storeID}
-	r.GetAllBy(ctx, query)
+	raw, err := r.GetAllBy(ctx, query, orders.Order{})
+	if err != nil {
+		return nil, err
+	}
+
+	// Map to objct this should done inside mongodb TODO MOVE
+	list = make([]orders.Order, len(raw))
+	for i, o := range raw {
+		list[i] = o.(orders.Order)
+	}
+
 	return
 }
 

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"reflect"
 
 	"github.com/miguelmartinez624/mmarket/modules/common/errors"
 	"go.mongodb.org/mongo-driver/bson"
@@ -72,7 +73,21 @@ func (r MongoDB) GetBy(ctx context.Context, query interface{}, output interface{
 	return nil
 }
 
-func (r MongoDB) GetAllBy(ctx context.Context, query interface{}) (err error) {
+func (r MongoDB) GetAllBy(ctx context.Context, query interface{}, schema interface{}) (list []interface{}, err error) {
+	cursor, err := r.dbContext.Find(ctx, query)
+	if err != nil {
+		return nil, err
+	}
 
-	return nil
+	for cursor.Next(ctx) {
+		el := reflect.New(reflect.TypeOf(schema))
+		err := cursor.Decode(&el)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		list = append(list, el)
+	}
+
+	return list, nil
 }

@@ -15,10 +15,12 @@ type Module struct {
 }
 
 func NewModule(orderRepo orders.Repository) *Module {
-
 	orderService := orders.NewService(orderRepo)
-
 	return &Module{ordersService: orderService}
+}
+
+func (m *Module) ConnectToStores(stores externals.StoresModule) {
+	m.stores = stores
 }
 
 // CreateOrder creates a buy order on the system, when the order its created a @OrderCreatedEvent will be

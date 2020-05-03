@@ -15,6 +15,7 @@ import (
 	"github.com/miguelmartinez624/mmarket/connections"
 	"github.com/miguelmartinez624/mmarket/middlewares"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication"
+	"github.com/miguelmartinez624/mmarket/modules/orders"
 	"github.com/miguelmartinez624/mmarket/modules/stores"
 	"github.com/miguelmartinez624/mmarket/modules/users"
 )
@@ -29,6 +30,7 @@ func main() {
 	authModule := auth.BuildAuthModule(client, r)
 	usersModule := users.BuildUsersModule(client, r)
 	storsModule := stores.BuildModule(client, r)
+	ordersModule := orders.BuildModule(client, r)
 
 	// Mount middldeware dependencies
 	middlewares.SetAuthModule(authModule)
@@ -37,6 +39,9 @@ func main() {
 	// Mount connection inter modules
 	authModule.ConnectToProfiles(connections.AuthToProfileConnection(usersModule))
 	storsModule.ConnectToProfiles(connections.StoreToProfileConnection(usersModule))
+
+	ordersModule.ConnectToStores(connections.OrdersToStoresConnection(storsModule))
+
 	// Service start
 	handler := handlers.CORS(
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT"}),

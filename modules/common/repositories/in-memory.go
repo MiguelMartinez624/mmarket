@@ -9,7 +9,7 @@ type InMemory struct {
 }
 
 func (r InMemory) GetAll(ctx context.Context) (list []interface{}, err error) { return }
-func (r InMemory) GetAllBy(ctx context.Context, query interface{}) (list []interface{}, err error) {
+func (r InMemory) GetAllBy(ctx context.Context, query interface{}, schema interface{}) (list []interface{}, err error) {
 	return
 }
 func (r InMemory) Save(ctx context.Context, entity interface{}) (ID string, err error) { return }
