@@ -1,6 +1,9 @@
 package orders
 
-import "context"
+import (
+	"context"
+	"errors"
+)
 
 type Service struct {
 	repository Repository
@@ -37,5 +40,14 @@ func (s *Service) CreateOrder(ctx context.Context, order *Order) (created *Order
 }
 
 func (s *Service) GetOrderByStoreID(ctx context.Context, storeID string) (list []Order, err error) {
-	return
+	if storeID == "" {
+		return nil, errors.New("Missing storeID")
+	}
+
+	list, err = s.repository.GetOrdersByStoreID(ctx, storeID)
+	if err != nil {
+		return nil, err
+	}
+
+	return list, nil
 }

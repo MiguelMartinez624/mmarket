@@ -32,6 +32,7 @@ func (r MongoDB) Save(ctx context.Context, entity interface{}) (ID string, err e
 
 	return fmt.Sprintf("%v", result.InsertedID), nil
 }
+
 func (r MongoDB) Update(ctx context.Context, ID string, entity interface{}) (ok bool, err error) {
 	id, err := primitive.ObjectIDFromHex(ID)
 	if err != nil {
@@ -68,5 +69,10 @@ func (r MongoDB) GetBy(ctx context.Context, query interface{}, output interface{
 
 	}
 	fmt.Printf("Result of mongodb : %v", output)
+	return nil
+}
+
+func (r MongoDB) GetAllBy(ctx context.Context, query interface{}) (err error) {
+
 	return nil
 }
