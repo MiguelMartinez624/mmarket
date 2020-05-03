@@ -35,3 +35,7 @@ func (s *Service) CreateOrder(ctx context.Context, order *Order) (created *Order
 	return created, nil
 
 }
+
+func (s *Service) GetOrderByStoreID(ctx context.Context, storeID string) (list []Order, err error) {
+	return
+}

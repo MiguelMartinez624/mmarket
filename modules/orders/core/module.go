@@ -49,6 +49,10 @@ func (m *Module) CreateOrder(ctx context.Context, storeID string, order *orders.
 	return
 }
 
+func (m *Module) GetStoreOrders(ctx context.Context, storeID string) (list []orders.Order, err error) {
+	return m.ordersService.GetOrderByStoreID(ctx, storeID)
+}
+
 func (m *Module) askProductsAvailability(order *orders.Order) error {
 	itemList := make([]externals.RequestItem, len(order.Details.Items))
 	//Map item details to request item,

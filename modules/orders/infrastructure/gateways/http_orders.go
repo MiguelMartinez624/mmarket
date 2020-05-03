@@ -36,3 +36,15 @@ func (c *HttpController) CreateOrder(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Created order with ID: %v", ID)
 
 }
+func (c *HttpController) GetStoreOrders(w http.ResponseWriter, r *http.Request) {
+	storeID := mux.Vars(r)["store_id"]
+
+	list, err := c.stores.GetStoreOrders(r.Context(), storeID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(list)
+
+}
