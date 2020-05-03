@@ -3,9 +3,11 @@ package core
 import (
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/products"
 	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/stores"
+	"github.com/miguelmartinez624/mmarket/modules/stores/core/dto"
 	"github.com/miguelmartinez624/mmarket/modules/stores/core/externals"
 )
 
@@ -62,6 +64,35 @@ func (m *Module) GetStoreByIDAndProfileID(ctx context.Context, storeID string, p
 }
 
 func (m *Module) UpdateProduct(ctx context.Context, productID string, product *products.Product) (success bool, err error) {
-	fmt.Println("Updating")
 	return m.productsService.UpdateProduct(ctx, productID, product)
+}
+
+func (m *Module) CheckProductsAvailaility(ctx context.Context, consult []dto.ProductStockConsult) (ok bool, err error) {
+
+	var wg sync.WaitGroup
+	wg.Add(len(consult))
+	invalidCount := 0
+
+	for i := range consult {
+		copyC := consult[i]
+		go func() {
+			wg.Done()
+			av, err := m.productsService.CheckAvailability(ctx, copyC.ProductID, copyC.Quantity)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			if !av {
+				invalidCount++
+			}
+			copyC.Aval = av
+		}()
+	}
+
+	if invalidCount > 0 {
+		return false, nil
+	}
+
+	return
+
 }

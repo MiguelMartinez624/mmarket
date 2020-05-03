@@ -6,4 +6,5 @@ type Product struct {
 	Name        string  `json:"name" bson:"Name,omitempty"`
 	Description string  `json:"description" bson:"description,omitempty"`
 	RawPrice    float32 `json:"raw_price" bson:"raw_price,omitempty"`
+	Stock       int     `json:"stock" bson:"stock,omitempty"`
 }

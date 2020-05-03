@@ -35,6 +35,7 @@ func (s *Service) GetProductsByStoreID(ctx context.Context, storeID string) (lis
 
 	return s.repository.GetAllByStoreID(ctx, storeID)
 }
+
 func (s *Service) UpdateProduct(ctx context.Context, ID string, product *Product) (success bool, err error) {
 	if ID == "" {
 		return false, errors.New("missing parameter StoreID")
@@ -58,4 +59,18 @@ func (s *Service) UpdateProduct(ctx context.Context, ID string, product *Product
 	}
 
 	return
+}
+
+func (s *Service) CheckAvailability(ctx context.Context, productID string, quantity int) (ok bool, err error) {
+
+	p, err := s.repository.GetByID(ctx, productID)
+	if err != nil {
+		return false, err
+	}
+
+	if p.Stock < quantity {
+		return false, err
+	}
+
+	return true, nil
 }
