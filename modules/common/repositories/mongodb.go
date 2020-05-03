@@ -51,7 +51,9 @@ func (r MongoDB) Update(ctx context.Context, ID string, entity interface{}) (ok 
 
 func (r MongoDB) Delete(ctx context.Context, ID string) (ok bool, err error) { return }
 
-func (r MongoDB) GetByID(ctx context.Context, ID string) (entity interface{}, err error) { return }
+func (r MongoDB) GetByID(ctx context.Context, ID string, output interface{}) (err error) {
+	return
+}
 
 func (r MongoDB) GetBy(ctx context.Context, query interface{}, output interface{}) (err error) {
 

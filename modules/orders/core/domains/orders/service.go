@@ -21,6 +21,17 @@ func (s *Service) CreateOrder(ctx context.Context, order *Order) (created *Order
 	// set to pending
 	order.Status = Pending
 
-	return
+	ID, err := s.repository.SaveOrder(ctx, order)
+	if err != nil {
+		return nil, err
+	}
+
+	// Get the recent created order
+	created, err = s.repository.GetOrderByID(ctx, ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return created, nil
 
 }
