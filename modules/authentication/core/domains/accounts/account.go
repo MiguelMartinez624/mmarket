@@ -21,7 +21,7 @@ var (
 
 //Credetial protect a resource
 type Account struct {
-	models.EntityData `bson:",inline"`
+	models.EntityData `bson:"inline"`
 	Username          string        `json:"username" bson:"username,omitempty"`
 	Password          string        `json:"password" bson:"password,omitempty"`
 	Status            AccountStatus `json:"status" bson:"status,omitempty"`

@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/miguelmartinez624/mmarket/modules/common/errors"
-	"github.com/miguelmartinez624/mmarket/modules/common/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -20,8 +19,8 @@ func NewMongoDBRepo(db *mongo.Collection) *MongoDB {
 	return &MongoDB{dbContext: db}
 
 }
-func (r MongoDB) GetAll(ctx context.Context) (list []models.Entity, err error) { return }
-func (r MongoDB) Save(ctx context.Context, entity models.Entity) (ID string, err error) {
+func (r MongoDB) GetAll(ctx context.Context) (list []interface{}, err error) { return }
+func (r MongoDB) Save(ctx context.Context, entity interface{}) (ID string, err error) {
 	result, err := r.dbContext.InsertOne(ctx, entity)
 	if err != nil {
 		return "", err
@@ -33,7 +32,7 @@ func (r MongoDB) Save(ctx context.Context, entity models.Entity) (ID string, err
 
 	return fmt.Sprintf("%v", result.InsertedID), nil
 }
-func (r MongoDB) Update(ctx context.Context, ID string, entity models.Entity) (ok bool, err error) {
+func (r MongoDB) Update(ctx context.Context, ID string, entity interface{}) (ok bool, err error) {
 	id, err := primitive.ObjectIDFromHex(ID)
 	if err != nil {
 		log.Fatal(err)
@@ -52,7 +51,7 @@ func (r MongoDB) Update(ctx context.Context, ID string, entity models.Entity) (o
 
 func (r MongoDB) Delete(ctx context.Context, ID string) (ok bool, err error) { return }
 
-func (r MongoDB) GetByID(ctx context.Context, ID string) (entity models.Entity, err error) { return }
+func (r MongoDB) GetByID(ctx context.Context, ID string) (entity interface{}, err error) { return }
 
 func (r MongoDB) GetBy(ctx context.Context, query interface{}, output interface{}) (err error) {
 

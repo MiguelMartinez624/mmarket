@@ -11,6 +11,7 @@ import (
 type Module struct {
 	ordersService *orders.Service
 	stores        externals.StoresModule
+	Events        chan interface{}
 }
 
 func NewModole(orderRepo orders.Repository) *Module {
@@ -36,6 +37,11 @@ func (m *Module) CreateOrder(ctx context.Context, order *orders.Order) (ID strin
 	}
 
 	fmt.Print(created)
+	event := OrderCreatedEvent{
+		OrderID: created.ID,
+	}
+
+	m.Events <- event
 
 	return
 }
