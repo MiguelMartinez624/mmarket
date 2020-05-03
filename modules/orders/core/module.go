@@ -23,7 +23,10 @@ func NewModole(orderRepo orders.Repository) *Module {
 
 // CreateOrder creates a buy order on the system, when the order its created a @OrderCreatedEvent will be
 // emitted
-func (m *Module) CreateOrder(ctx context.Context, order *orders.Order) (ID string, err error) {
+func (m *Module) CreateOrder(ctx context.Context, storeID string, order *orders.Order) (ID string, err error) {
+	//Make sure that the order gts created to the id that its passed, and so you dont
+	// have to put the storeID when calling the module
+	order.StoreID = storeID
 
 	// ask availability to the store
 	err = m.askProductsAvailability(order)
