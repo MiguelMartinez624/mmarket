@@ -13,7 +13,7 @@ type MongoDBOrdersRepository struct {
 	db *mongo.Collection
 }
 
-func NewMongoDBAccountsRepository(db *mongo.Collection) *MongoDBOrdersRepository {
+func NewMongoDBOrdersRepository(db *mongo.Collection) *MongoDBOrdersRepository {
 	return &MongoDBOrdersRepository{
 		db:      db,
 		MongoDB: repositories.NewMongoDBRepo(db),

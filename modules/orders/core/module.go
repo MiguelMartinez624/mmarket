@@ -14,7 +14,7 @@ type Module struct {
 	Events        chan interface{}
 }
 
-func NewModole(orderRepo orders.Repository) *Module {
+func NewModule(orderRepo orders.Repository) *Module {
 
 	orderService := orders.NewService(orderRepo)
 
