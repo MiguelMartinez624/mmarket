@@ -17,7 +17,7 @@ var (
 type Order struct {
 	ID           string
 	StoreID      string
-	CostumerID   string
+	CustomerID   string
 	Number       string
 	Status       OrderStatus
 	Details      *OrderDetails
