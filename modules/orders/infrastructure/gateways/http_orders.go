@@ -34,8 +34,8 @@ func (c *HttpController) CreateStoreOrder(w http.ResponseWriter, r *http.Request
 	}
 
 	fmt.Fprintf(w, "Created order with ID: %v", ID)
-
 }
+
 func (c *HttpController) CreateCostumerOrder(w http.ResponseWriter, r *http.Request) {
 	profileID := mux.Vars(r)["profile_id"]
 	var order orders.Order
@@ -52,7 +52,6 @@ func (c *HttpController) CreateCostumerOrder(w http.ResponseWriter, r *http.Requ
 	}
 
 	fmt.Fprintf(w, "Created order with ID: %v", ID)
-
 }
 
 func (c *HttpController) GetStoreOrders(w http.ResponseWriter, r *http.Request) {
@@ -65,5 +64,16 @@ func (c *HttpController) GetStoreOrders(w http.ResponseWriter, r *http.Request) 
 	}
 
 	json.NewEncoder(w).Encode(list)
+}
 
+func (c *HttpController) GetCostumerOrders(w http.ResponseWriter, r *http.Request) {
+	profileID := mux.Vars(r)["profile_id"]
+
+	list, err := c.stores.GetCostumerOrders(r.Context(), profileID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(list)
 }

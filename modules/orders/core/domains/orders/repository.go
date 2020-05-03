@@ -9,5 +9,7 @@ type Repository interface {
 
 	GetOrdersByStoreID(ctx context.Context, ID string) (list []Order, err error)
 
+	GetOrdersByCostumerID(ctx context.Context, ID string) (list []Order, err error)
+
 	UpdateOrder(ctx context.Context, ID string, order *Order) (ok bool, err error)
 }

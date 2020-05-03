@@ -23,6 +23,7 @@ func BuildModule(client *mongo.Client, r *mux.Router) *core.Module {
 
 	//Profile management orders
 	r.HandleFunc("/profiles/{profile_id}/orders", httpController.CreateCostumerOrder).Methods("POST")
+	r.HandleFunc("/profiles/{profile_id}/orders", httpController.GetCostumerOrders).Methods("GET")
 
 	return module
 }

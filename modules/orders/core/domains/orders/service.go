@@ -51,3 +51,16 @@ func (s *Service) GetOrderByStoreID(ctx context.Context, storeID string) (list [
 
 	return list, nil
 }
+
+func (s *Service) GetOrderByCostumerID(ctx context.Context, costumerID string) (list []Order, err error) {
+	if costumerID == "" {
+		return nil, errors.New("Missing costumerID")
+	}
+
+	list, err = s.repository.GetOrdersByCostumerID(ctx, costumerID)
+	if err != nil {
+		return nil, err
+	}
+
+	return list, nil
+}
