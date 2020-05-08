@@ -1,7 +1,5 @@
 package accounts
 
-import "github.com/miguelmartinez624/mmarket/modules/common/models"
-
 //  AccountStatus are the actuall status that a account can have
 type AccountStatus = int8
 
@@ -21,11 +19,15 @@ var (
 
 //Credetial protect a resource
 type Account struct {
-	models.EntityData `bson:"inline"`
-	Username          string        `json:"username" bson:"username,omitempty"`
-	Password          string        `json:"password" bson:"password,omitempty"`
-	Status            AccountStatus `json:"status" bson:"status,omitempty"`
-	ValidationHash    string        `json:"validation_hash" bson:"validation_hash,omitempty"`
+	ID             string        `json:"username" bson:"_id,omitempty"`
+	Username       string        `json:"username" bson:"username,omitempty"`
+	Password       string        `json:"password" bson:"password,omitempty"`
+	Status         AccountStatus `json:"status" bson:"status,omitempty"`
+	ValidationHash string        `json:"validation_hash" bson:"validation_hash,omitempty"`
+
+	// Write register
+	CreatedAt string `json:"created_at" bson:"created_at,omitemty"`
+	UpdatedAt string `json:"updated_at" bson:"updated_at,omitemty"`
 }
 
 func (a *Account) ItsEntity() bool { return true }

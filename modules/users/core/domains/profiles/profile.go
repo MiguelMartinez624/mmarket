@@ -22,4 +22,5 @@ type Profile struct {
 	LastName  string        `json:"lastname" bson:"lastname,omitempty"`
 	Contacts  []ContactInfo `json:"contacts" bson:"contacts,omitempty"`
 	Roles     []Roles       `json:"roles" bson:"roles,omitempty"`
+	Address   []Address     `json:"address" bson:"address,omitempty"`
 }

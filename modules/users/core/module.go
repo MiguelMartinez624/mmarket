@@ -32,3 +32,7 @@ func (m *Module) ValidateContact(ctx context.Context, accountID string) (sucess 
 func (m *Module) GetProfilebyID(ctx context.Context, profileId string) (profile *profiles.Profile, err error) {
 	return m.profileService.GetProfileByID(ctx, profileId)
 }
+
+func (m *Module) UpdateProfile(ctx context.Context, ID string, update profiles.Profile) (ok bool, err error) {
+	return m.profileService.UpdateProfile(ctx, ID, update)
+}

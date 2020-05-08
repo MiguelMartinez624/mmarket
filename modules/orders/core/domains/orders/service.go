@@ -64,3 +64,7 @@ func (s *Service) GetOrderByCostumerID(ctx context.Context, costumerID string) (
 
 	return list, nil
 }
+
+func (s *Service) UpdateOrder(ctx context.Context, orderID string, order Order) (ok bool, err error) {
+	return
+}

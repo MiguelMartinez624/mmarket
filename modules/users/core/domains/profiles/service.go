@@ -44,6 +44,7 @@ func (s *Service) GetProfileByAccountID(ctx context.Context, accountID string) (
 
 	return p, err
 }
+
 func (s *Service) GetProfileByID(ctx context.Context, profileID string) (p *Profile, err error) {
 
 	if profileID == "" {
@@ -77,4 +78,22 @@ func (s *Service) ValidateMainContactInfo(ctx context.Context, accountID string,
 		return false, err
 	}
 	return
+}
+
+func (s *Service) UpdateProfile(ctx context.Context, profileID string, changes Profile) (ok bool, err error) {
+	if profileID == "" {
+		return false, MissingParamError{Param: "profileID"}
+	}
+
+	_, err = s.profileStore.FindProfileByID(ctx, profileID)
+	if err != nil {
+		return false, err
+	}
+
+	update := Profile{
+		LastName:  changes.LastName,
+		FirstName: changes.FirstName,
+	}
+
+	return s.profileStore.UpdateProfile(ctx, profileID, &update)
 }

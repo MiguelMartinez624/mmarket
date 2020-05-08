@@ -15,6 +15,7 @@ func (s *MuckProfileStore) StoreProfile(ctx context.Context, profile *profiles.P
 	DATABASE[profile.ID] = profile
 	return profile.ID, nil
 }
+
 func (s *MuckProfileStore) FindProfileByID(ctx context.Context, ID string) (profile *profiles.Profile, err error) {
 	for _, p := range DATABASE {
 		if p.ID == ID {
@@ -27,8 +28,8 @@ func (s *MuckProfileStore) FindProfileByID(ctx context.Context, ID string) (prof
 
 	return
 }
-func (s *MuckProfileStore) FindProfileByAccountID(ctx context.Context, accountID string) (profile *profiles.Profile, err error) {
 
+func (s *MuckProfileStore) FindProfileByAccountID(ctx context.Context, accountID string) (profile *profiles.Profile, err error) {
 	for _, p := range DATABASE {
 		if p.ID == accountID {
 			profile = p
@@ -37,14 +38,13 @@ func (s *MuckProfileStore) FindProfileByAccountID(ctx context.Context, accountID
 	if profile == nil {
 		return nil, profiles.ProfileDontFoundError{}
 	}
-
 	return
 }
-func (s *MuckProfileStore) FindContactByID(ctx context.Context, contactID string) (profile *profiles.ContactInfo, err error) {
 
-	return
-}
 func (s *MuckProfileStore) UpdateProfile(ctx context.Context, ID string, profile *profiles.Profile) (success bool, err error) {
+	profile, _ = s.FindProfileByID(ctx, ID)
 
-	return
+	profile.FirstName = profile.FirstName
+	profile.LastName = profile.LastName
+	return true, nil
 }

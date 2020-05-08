@@ -30,6 +30,7 @@ func (m *Module) CreateStoreOrder(ctx context.Context, storeID string, order *or
 
 	return m.CreateOrder(ctx, order)
 }
+
 func (m *Module) CreateProfileOrder(ctx context.Context, profileID string, order *orders.Order) (ID string, err error) {
 	//Make sure that the order gts created to the id that its passed, and so you dont
 	// have to put the storeID when calling the module
