@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"github.com/dgrijalva/jwt-go"
 
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"

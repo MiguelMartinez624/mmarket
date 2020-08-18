@@ -6,7 +6,7 @@ import (
 	"log"
 	"reflect"
 
-	"github.com/miguelmartinez624/mmarket/modules/common/errors"
+	"github.com/miguelmartinez624/mmarket/modules/nodos/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

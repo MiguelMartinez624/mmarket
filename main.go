@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/miguelmartinez624/mmarket/modules/nodos"
 	"log"
 	"net/http"
 	"time"
@@ -12,12 +13,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"github.com/miguelmartinez624/mmarket/connections"
 	"github.com/miguelmartinez624/mmarket/middlewares"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication"
-	"github.com/miguelmartinez624/mmarket/modules/orders"
-	"github.com/miguelmartinez624/mmarket/modules/stores"
-	"github.com/miguelmartinez624/mmarket/modules/users"
 )
 
 const DB_URI = "mongodb://localhost:27017"
@@ -28,20 +25,19 @@ func main() {
 	r := mux.NewRouter()
 	//AuthenticationModule
 	authModule := auth.BuildAuthModule(client, r)
-	usersModule := users.BuildUsersModule(client, r)
-	storesModule := stores.BuildModule(client, r)
-	ordersModule := orders.BuildModule(client, r)
+	//usersModule := users.BuildUsersModule(client, r)
+	//storesModule := stores.BuildModule(client, r)
+	//ordersModule := orders.BuildModule(client, r)
 
 	// Mount middldeware dependencies
 	middlewares.SetAuthModule(authModule)
-	middlewares.SetStoresModule(storesModule)
+	//middlewares.SetStoresModule(storesModule)
 
-	// Mount connection inter modules
-	authModule.ConnectToProfiles(connections.AuthToProfileConnection(usersModule))
-	storesModule.ConnectToProfiles(connections.StoreToProfileConnection(usersModule))
+	manager := nodos.Manager{[]nodos.Nodo{
+		authModule,
+	}}
 
-	ordersModule.ConnectToStores(connections.OrdersToStoresConnection(storesModule))
-
+	go manager.Start()
 	// Service start
 	handler := handlers.CORS(
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT"}),

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/google/uuid"
-	cErr "github.com/miguelmartinez624/mmarket/modules/common/errors"
+	cErr "github.com/miguelmartinez624/mmarket/modules/nodos/errors"
 )
 
 // Service contains the logic of this domain, accounts it use its the gate

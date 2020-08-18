@@ -3,11 +3,11 @@ package auth
 import (
 	"context"
 	"fmt"
-
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/dto"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/external"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/records"
+	"github.com/miguelmartinez624/mmarket/modules/nodos"
 )
 
 type Module struct {
@@ -18,18 +18,22 @@ type Module struct {
 	profileModule external.ProfileModule
 }
 
-func NewAuthentication(accountRepository accounts.Repository, encrypter accounts.Encrypter, tokenManager TokenManager) *Module {
+func NewAuthentication(
+	accountRepository accounts.Repository,
+	encrypter accounts.Encrypter,
+	tokenManager TokenManager) *Module {
 	credService := accounts.NewService(accountRepository, encrypter)
 
 	auth := Module{
 		AccountsService: credService,
-		tokenManager:    tokenManager}
+		tokenManager:    tokenManager,
+	}
+
 	return &auth
 }
 
 //RegisterAccounts register a account and sent te profile data to the profiles data.
 func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUser) (success bool, err error) {
-
 
 	keys, err := m.AccountsService.CreateAccount(ctx, register.Username, register.Password)
 	if err != nil {
@@ -90,4 +94,10 @@ func (m *Module) ValidateToken(ctx context.Context, token string) (claims *Token
 
 func (m *Module) ConnectToProfiles(pm external.ProfileModule) {
 	m.profileModule = pm
+}
+
+func (m *Module) ListenEvents(net chan nodos.Event) {
+	for ev := range net {
+		fmt.Println(ev)
+	}
 }
