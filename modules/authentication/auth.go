@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -29,7 +30,8 @@ func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Module {
 	r.HandleFunc("/signin", httpController.Signin).Methods("POST", "OPTIONs")
 	r.HandleFunc("/signup", httpController.SignUp).Methods("POST", "OPTIONs")
 	r.HandleFunc("/validate/{validation_code}", httpController.ValidateAccount).Methods("get")
-
 	http.Handle("/", r)
+
+	fmt.Println("Auth Module running ...")
 	return auth
 }

@@ -3,7 +3,7 @@ package persistency
 import (
 	"context"
 
-	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
+	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
 	"github.com/miguelmartinez624/mmarket/modules/common/repositories"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

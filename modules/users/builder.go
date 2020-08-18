@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/miguelmartinez624/mmarket/middlewares"
 	users "github.com/miguelmartinez624/mmarket/modules/users/core"
@@ -19,5 +20,6 @@ func BuildUsersModule(client *mongo.Client, r *mux.Router) *users.Module {
 
 	r.Handle("/users/me", middlewares.IsAuthorized(httpController.Me)).Methods("GET")
 
+	fmt.Println("Users/Profile module running")
 	return users
 }

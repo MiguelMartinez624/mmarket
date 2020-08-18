@@ -3,7 +3,7 @@ package accounts
 import (
 	"context"
 	"errors"
-
+	"github.com/google/uuid"
 	cErr "github.com/miguelmartinez624/mmarket/modules/common/errors"
 )
 
@@ -73,9 +73,15 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 		return nil, err
 	}
 
+	resourceId, err := uuid.NewUUID()
+	if err != nil {
+		panic(err) // handle
+	}
+
 	keys = &NewAccountKeys{
 		AccountID:        ID,
 		VerificationHash: hash,
+		ResourceID:       resourceId.String(),
 	}
 
 	// OK!

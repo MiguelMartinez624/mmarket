@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
+	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
 )
 
 type TokenManager interface {

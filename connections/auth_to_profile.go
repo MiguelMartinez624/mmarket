@@ -17,19 +17,24 @@ type APC struct {
 	m *users.Module
 }
 
-func (c *APC) CreateProfile(profile *authDto.Profile) (success bool, err error) {
+func (c *APC) CreateProfile(profile interface{}) (success bool, err error) {
 	fmt.Println(profile)
 	ctx := context.TODO()
-	p := pd.Profile{
-		AccountID: profile.AccountID,
-		LastName:  profile.LastName,
-		FirstName: profile.FirstName,
-		Contacts: []pd.ContactInfo{
-			{Value: profile.Email, Channel: pd.Email},
-		},
-		Roles: []string{profile.Role},
+
+	switch p := profile.(type) {
+	case pd.Profile:
+		p := pd.Profile{
+			AccountID: p.AccountID,
+			LastName:  p.LastName,
+			FirstName: p.FirstName,
+			Contacts: []pd.ContactInfo{
+				{Value: p.Email, Channel: pd.Email},
+			},
+		}
+		_, err = c.m.CreateNewUserProfile(ctx, &p)
+
 	}
-	_, err = c.m.CreateNewUserProfile(ctx, &p)
+
 	if err != nil {
 		return false, err
 	}

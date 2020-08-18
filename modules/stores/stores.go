@@ -1,6 +1,7 @@
 package stores
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/miguelmartinez624/mmarket/middlewares"
 	"github.com/miguelmartinez624/mmarket/modules/stores/core"
@@ -27,5 +28,6 @@ func BuildModule(client *mongo.Client, r *mux.Router) *core.Module {
 	r.HandleFunc("/{profile_id}/stores/{store_id}/products", middlewares.IsAuthorized(middlewares.OwnStore(httpController.CreateStoreProduct))).Methods("POST")
 	r.HandleFunc("/{profile_id}/stores/{store_id}/products/{product_id}", middlewares.IsAuthorized(middlewares.OwnStore(httpController.UpdateProduct))).Methods("POST")
 
+	fmt.Println("Stores module running ....")
 	return module
 }

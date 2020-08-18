@@ -27,19 +27,16 @@ func simpleErr(msg string) error {
 }
 
 type AccountDontExist struct{}
-
 func (e AccountDontExist) Error() string {
 	return fmt.Sprintf("account doesn't exist.")
 }
 
 type AlreadyExistUsernameError struct{}
-
 func (e AlreadyExistUsernameError) Error() string {
 	return fmt.Sprintf("account usrname already exist.")
 }
 
 type UnverifiedAccountError struct{}
-
 func (e UnverifiedAccountError) Error() string {
 	return fmt.Sprintf("Unverified Account.")
 }

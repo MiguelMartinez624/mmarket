@@ -29,18 +29,18 @@ func main() {
 	//AuthenticationModule
 	authModule := auth.BuildAuthModule(client, r)
 	usersModule := users.BuildUsersModule(client, r)
-	storsModule := stores.BuildModule(client, r)
+	storesModule := stores.BuildModule(client, r)
 	ordersModule := orders.BuildModule(client, r)
 
 	// Mount middldeware dependencies
 	middlewares.SetAuthModule(authModule)
-	middlewares.SetStoresModule(storsModule)
+	middlewares.SetStoresModule(storesModule)
 
 	// Mount connection inter modules
 	authModule.ConnectToProfiles(connections.AuthToProfileConnection(usersModule))
-	storsModule.ConnectToProfiles(connections.StoreToProfileConnection(usersModule))
+	storesModule.ConnectToProfiles(connections.StoreToProfileConnection(usersModule))
 
-	ordersModule.ConnectToStores(connections.OrdersToStoresConnection(storsModule))
+	ordersModule.ConnectToStores(connections.OrdersToStoresConnection(storesModule))
 
 	// Service start
 	handler := handlers.CORS(

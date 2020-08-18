@@ -3,7 +3,7 @@ package tests
 import (
 	"context"
 
-	"github.com/miguelmartinez624/mmarket/modules/authentication/core/domains/accounts"
+	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
 	"github.com/miguelmartinez624/mmarket/modules/common/repositories"
 )
 

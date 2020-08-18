@@ -35,4 +35,5 @@ func (a *Account) ItsEntity() bool { return true }
 type NewAccountKeys struct {
 	AccountID        string
 	VerificationHash string
+	ResourceID       string
 }
