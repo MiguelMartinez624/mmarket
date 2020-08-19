@@ -8,20 +8,22 @@ import (
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/external"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/records"
 	"github.com/miguelmartinez624/mmarket/modules/nodos"
+	"log"
 )
 
 type Module struct {
 	AccountsService    *accounts.Service
 	LoginAttempService *records.Service
 
-	tokenManager  TokenManager
-	profileModule external.ProfileModule
+	tokenManager TokenManager
+	notify       nodos.EventHandler
 }
 
 func NewAuthentication(
 	accountRepository accounts.Repository,
 	encrypter accounts.Encrypter,
 	tokenManager TokenManager) *Module {
+
 	credService := accounts.NewService(accountRepository, encrypter)
 
 	auth := Module{
@@ -40,20 +42,17 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 		return false, err
 	}
 
-	fmt.Printf("enviar a comunication %v", keys.VerificationHash)
+	log.Printf("enviar a comunication %v")
 
-	// Create a profile information and then pass to the profiles module to
-	// create the profile linked to this account
-	newProfile := dto.Profile{
-		AccountID: keys.AccountID,
+	// Sent the Resource and the ID that is under the account for that resource
+	evData := dto.AccountRegisterEventData{
+		ResourceID: keys.ResourceID,
+		Resource:   register.Resource,
 	}
 
-	// Comunication between the profile and authentication module to create profile
-	success, err = m.profileModule.CreateProfile(&newProfile)
-	if err != nil {
-		//handle what kind of error cud happend and retry probably
-		// panic(err)
-	}
+	//Create and sent the event.
+	ev := nodos.Event{Name: ACCOUNT_CREATED, Data: evData}
+	m.notify(ev)
 
 	return success, err
 }
@@ -94,6 +93,10 @@ func (m *Module) ValidateToken(ctx context.Context, token string) (claims *Token
 
 func (m *Module) ConnectToProfiles(pm external.ProfileModule) {
 	m.profileModule = pm
+}
+
+func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
+	m.notify = handler
 }
 
 func (m *Module) ListenEvents(net chan nodos.Event) {
