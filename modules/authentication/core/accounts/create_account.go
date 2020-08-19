@@ -13,8 +13,7 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 	creds := &Account{Username: username, Password: password}
 
 	// need to validate the data that its comming here
-	err = cs.accountsValidator.ValidateAccount(creds)
-	if err != nil {
+	if err = cs.accountsValidator.ValidateAccount(creds); err != nil {
 		return nil, err
 	}
 
@@ -58,9 +57,10 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 	return keys, nil
 }
 
+// checkEmalAndUserAvalability Check if there its already a account to that username if its the case it will
+// it will get a AlreadyExistUsernameError
 func (cs *Service) checkEmalAndUserAvalability(ctx context.Context, username string) error {
-	// Check if there its already a account to that username if its the case it will
-	// it will get a AlreadyExistUsernameError
+
 	accounts, err := cs.accountRepository.GetAccountsByUserName(ctx, username)
 	if err != nil {
 		switch err.(type) {
@@ -71,7 +71,7 @@ func (cs *Service) checkEmalAndUserAvalability(ctx context.Context, username str
 		}
 	}
 
-	// Duplicate accounts attemp error
+	// Duplicate accounts attempt error
 	if accounts != nil {
 		return AlreadyExistUsernameError{}
 	}
