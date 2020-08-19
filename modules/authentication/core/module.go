@@ -53,7 +53,7 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 	ev := nodos.Event{Name: ACCOUNT_CREATED, Data: evData}
 	m.notify(ev)
 
-	return success, err
+	return true, nil
 }
 
 func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccount) (token string, err error) {

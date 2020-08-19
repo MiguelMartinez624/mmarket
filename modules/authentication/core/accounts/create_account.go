@@ -49,23 +49,22 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 	if err != nil {
 		return nil, err
 	}
-
-	creds.ValidationHash = hash
-
-	ID, err := cs.accountRepository.SaveAccount(ctx, creds)
-	if err != nil {
-		return nil, err
-	}
-
 	resourceId, err := uuid.NewUUID()
 	if err != nil {
 		panic(err) // handle
 	}
 
+	creds.ValidationHash = hash
+	creds.ResourceID = resourceId.String()
+	ID, err := cs.accountRepository.SaveAccount(ctx, creds)
+	if err != nil {
+		return nil, err
+	}
+
 	keys = &NewAccountKeys{
 		AccountID:        ID,
 		VerificationHash: hash,
-		ResourceID:       resourceId.String(),
+		ResourceID:       creds.ResourceID,
 	}
 
 	// OK!

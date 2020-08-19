@@ -1,0 +1,26 @@
+### SignUp request
+POST http://localhost:8000/auth/signup
+Accept: application/json
+
+{
+  "password":"password",
+  "username":"contador3",
+  "email":"contador3@correo.com",
+  "profile": {
+  "name":"miguel",
+  "lastname" : "martinez"
+  }
+}
+
+### verify account
+GET http://localhost:8000/auth/validate/contador@correo.com-
+
+### Sign in request
+POST http://localhost:8000/auth/signin
+Accept: application/json
+
+{
+  "password":"password",
+  "username":"contador"
+}
+
