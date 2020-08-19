@@ -24,7 +24,7 @@ type Account struct {
 	Password       string        `json:"password" bson:"password,omitempty"`
 	Status         AccountStatus `json:"status" bson:"status,omitempty"`
 	ValidationHash string        `json:"validation_hash" bson:"validation_hash,omitempty"`
-
+	ResourceID       string
 	// Write register
 	CreatedAt string `json:"created_at" bson:"created_at,omitemty"`
 	UpdatedAt string `json:"updated_at" bson:"updated_at,omitemty"`

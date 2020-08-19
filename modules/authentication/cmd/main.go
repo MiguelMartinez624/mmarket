@@ -19,7 +19,7 @@ func main() {
 	client, cancel := ConnectMongoDB(DB_URI)
 	defer cancel()
 	r := mux.NewRouter()
-	authModule := auth.BuildAuthModule(client, r)
+	 auth.BuildAuthModule(client, r)
 
 	// Service start
 	handler := handlers.CORS(

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/dto"
-	"github.com/miguelmartinez624/mmarket/modules/authentication/core/external"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/records"
 	"github.com/miguelmartinez624/mmarket/modules/nodos"
 	"log"
@@ -63,12 +62,8 @@ func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccoun
 		return "", err
 	}
 
-	profile, err := m.profileModule.GetProfileByAccountID(account.ID)
-	if err != nil {
-		return "", err
-	}
 
-	token, err = m.tokenManager.GenerateToken(account, profile.ID)
+	token, err = m.tokenManager.GenerateToken(account, account.ResourceID)
 	if err != nil {
 		return "", err
 	}
@@ -81,18 +76,16 @@ func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool
 	if err != nil {
 		return false, err
 	}
-	//Once the acccount its validated we procced to mark the email as valid
-	m.profileModule.ValidateEmail(account.ID)
+	//Once the account its validated we procced to mark the email as valid
+	//Create and sent the event.
+	ev := nodos.Event{Name: ACCOUNT_EMAIL_VERIFIED, Data: account.Username}
+	m.notify(ev)
 
 	return true, nil
 }
 
 func (m *Module) ValidateToken(ctx context.Context, token string) (claims *TokenClaims, err error) {
 	return m.tokenManager.ValidateToken(token)
-}
-
-func (m *Module) ConnectToProfiles(pm external.ProfileModule) {
-	m.profileModule = pm
 }
 
 func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
