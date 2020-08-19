@@ -18,21 +18,8 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 		return nil, err
 	}
 
-	// Check if there its already a account to that username if its the case it will
-	// it will get a AlreadyExistUsernameError
-	accounts, err := cs.accountRepository.GetAccountsByUserName(ctx, username)
-	if err != nil {
-		switch err.(type) {
-		case cErr.DontExist:
-			break
-		default:
-			return nil, err
-		}
-	}
-
-	// Duplicate accounts attemp error
-	if accounts != nil {
-		return nil, AlreadyExistUsernameError{}
+	if err = cs.checkEmalAndUserAvalability(ctx, username); err != nil {
+		return nil, err
 	}
 
 	// Hash and change the password to be stored as a hash
@@ -69,4 +56,24 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 
 	// OK!
 	return keys, nil
+}
+
+func (cs *Service) checkEmalAndUserAvalability(ctx context.Context, username string) error {
+	// Check if there its already a account to that username if its the case it will
+	// it will get a AlreadyExistUsernameError
+	accounts, err := cs.accountRepository.GetAccountsByUserName(ctx, username)
+	if err != nil {
+		switch err.(type) {
+		case cErr.DontExist:
+			break
+		default:
+			return err
+		}
+	}
+
+	// Duplicate accounts attemp error
+	if accounts != nil {
+		return AlreadyExistUsernameError{}
+	}
+	return nil
 }
