@@ -8,6 +8,7 @@ import (
 var (
 	EmptyPasswordError           error = simpleErr("Password cant be empty")
 	EmptyUsernameError           error = simpleErr("Username cant be empty")
+	EmptyEmailError           error = simpleErr("Email cant be empty")
 	InvalidAccountsError               = simpleErr("Invalid accounts")
 	InvalidVerificationCodeError       = simpleErr("Invalid verification code")
 	AccountAlreadyVerifiedError        = simpleErr("The account its already verified")

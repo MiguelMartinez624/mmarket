@@ -19,9 +19,10 @@ var (
 
 //Credetial protect a resource
 type Account struct {
-	ID             string        `json:"username" bson:"_id,omitempty"`
+	ID             string        `json:"_id" bson:"_id,omitempty"`
 	Username       string        `json:"username" bson:"username,omitempty"`
 	Password       string        `json:"password" bson:"password,omitempty"`
+	Email          string        `json:"email" bson:"password,omitempty"`
 	Status         AccountStatus `json:"status" bson:"status,omitempty"`
 	ValidationHash string        `json:"validation_hash" bson:"validation_hash,omitempty"`
 	ResourceID     string
@@ -31,13 +32,18 @@ type Account struct {
 }
 
 func (a *Account) ItsEntity() bool { return true }
+
 func (a *Account) ItsValid() error {
 	if a.Password == "" {
 		return EmptyPasswordError
 	}
 
+	if a.Email == "" {
+		return EmptyEmailError
+	}
+
 	if a.Username == "" {
-		return EmptyUsernameError
+		a.Username = a.Email
 	}
 
 	return nil
