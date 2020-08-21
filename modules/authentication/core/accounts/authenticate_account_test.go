@@ -16,23 +16,24 @@ type argsAuthenticate struct {
 	password string
 }
 type accountAuthenticateTestCase struct {
-	name        string
-	fields      serviceDeps
-	args        argsAuthenticate
-	wantAccount *Account
-	wantErr     bool
+	name          string
+	fields        serviceDeps
+	args          argsAuthenticate
+	wantAccount   *Account
+	wantErr       bool
 	expectedError error
 }
 
 var invalidUsernameCase = accountAuthenticateTestCase{
-	name: "Try to get account with invalid username",
-	wantErr: false,
+	name:        "Try to get account with invalid username",
+	wantErr:     true,
 	wantAccount: nil,
 	fields: serviceDeps{
 		accountRepository: MockRepository{GetByUserNameFunc: func() (account *Account, err error) {
-				return nil, InvalidAccountsError
+			return nil, InvalidAccountsError
 		}},
 	},
+	expectedError: InvalidAccountsError,
 }
 
 func TestService_Authenticate(t *testing.T) {
@@ -54,6 +55,13 @@ func TestService_Authenticate(t *testing.T) {
 			if !reflect.DeepEqual(gotAccount, tt.wantAccount) {
 				t.Errorf("Authenticate() gotAccount = %v, want %v", gotAccount, tt.wantAccount)
 			}
+
+			if tt.wantErr {
+				if !reflect.DeepEqual(err, tt.expectedError) {
+					t.Errorf("Authenticate() gotError = %v, want %v", err, tt.expectedError)
+				}
+			}
+
 		})
 	}
 }
