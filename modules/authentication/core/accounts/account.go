@@ -24,13 +24,24 @@ type Account struct {
 	Password       string        `json:"password" bson:"password,omitempty"`
 	Status         AccountStatus `json:"status" bson:"status,omitempty"`
 	ValidationHash string        `json:"validation_hash" bson:"validation_hash,omitempty"`
-	ResourceID       string
+	ResourceID     string
 	// Write register
 	CreatedAt string `json:"created_at" bson:"created_at,omitemty"`
 	UpdatedAt string `json:"updated_at" bson:"updated_at,omitemty"`
 }
 
 func (a *Account) ItsEntity() bool { return true }
+func (a *Account) ItsValid() error {
+	if a.Password == "" {
+		return EmptyPasswordError
+	}
+
+	if a.Username == "" {
+		return EmptyUsernameError
+	}
+
+	return nil
+}
 
 type NewAccountKeys struct {
 	AccountID        string

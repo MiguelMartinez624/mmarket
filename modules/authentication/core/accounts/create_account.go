@@ -13,7 +13,7 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 	creds := &Account{Username: username, Password: password}
 
 	// need to validate the data that its comming here
-	if err = cs.accountsValidator.ValidateAccount(creds); err != nil {
+	if err = creds.ItsValid(); err != nil {
 		return nil, err
 	}
 

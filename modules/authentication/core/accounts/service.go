@@ -7,7 +7,6 @@ package accounts
 type Service struct {
 	accountRepository Repository
 	encrypter         Encrypter
-	accountsValidator Validator
 }
 
 func NewService(accountRepository Repository, encrypter Encrypter) *Service {
