@@ -24,3 +24,21 @@ func (m MockRepository) GetAccountsByUserName(ctx context.Context, username stri
 func (m MockRepository) GetAccountsByValidationHash(ctx context.Context, hash string) (account *Account, err error) {
 	return m.GetByHashFunc()
 }
+
+type MockEncrypter struct {
+	HashFunc         func() (hash string, err error)
+	ValidationFunc   func() (success bool, err error)
+	GenerateHashFunc func() (hash string, err error)
+}
+
+func (m MockEncrypter) HashPassword(password string) (hash string, err error) {
+	return m.HashFunc()
+}
+
+func (m MockEncrypter) ValidateHash(original string, underTest string) (success bool, err error) {
+	return m.ValidationFunc()
+}
+
+func (m MockEncrypter) GenerateValidationHash(accountID string, seed string) (hash string, err error) {
+	return m.GenerateHashFunc()
+}

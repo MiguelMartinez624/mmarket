@@ -31,12 +31,9 @@ func (cs *Service) Authenticate(ctx context.Context, username string, password s
 	}
 
 	//validate password
-	success, err := cs.encrypter.ValidateHash(account.Password, password)
-	if err != nil {
+	if success, err := cs.encrypter.ValidateHash(account.Password, password); err != nil {
 		return nil, err
-	}
-
-	if !success {
+	} else if !success {
 		return nil, InvalidAccountsError
 	}
 
