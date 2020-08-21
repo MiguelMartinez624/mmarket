@@ -34,13 +34,16 @@ type Account struct {
 func (a *Account) ItsEntity() bool { return true }
 
 func (a *Account) ItsValid() error {
-	if a.Password == "" {
-		return EmptyPasswordError
-	}
 
 	if a.Email == "" {
 		return EmptyEmailError
 	}
+
+
+	if a.Password == "" {
+		return EmptyPasswordError
+	}
+
 
 	if a.Username == "" {
 		a.Username = a.Email

@@ -16,7 +16,7 @@ import (
 //is still on a unknown state and the account cant be used.
 //
 //ACTIVE : this is the ideal state of the account and the only one were the account can be used.
-func (cs *Service) Authenticate(ctx context.Context, username string, password string) (account *Account, err error) {
+func (cs *DefaultService) Authenticate(ctx context.Context, username string, password string) (account *Account, err error) {
 
 	account, err = cs.accountRepository.GetAccountsByUserName(ctx, username)
 	if err != nil {

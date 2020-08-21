@@ -19,7 +19,7 @@ var emptyEmailCase = createAccountTestCase{
 	wantErr:     true,
 	wantKeys: nil,
 	fields: serviceDeps{},
-	expectedError: EmptyPasswordError,
+	expectedError: EmptyEmailError,
 }
 
 func TestService_CreateAccount(t *testing.T) {

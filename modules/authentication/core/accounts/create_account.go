@@ -23,7 +23,7 @@ import (
 //
 //* Step 5: the final step its to create a Unique ID to a resource that this account its guarding and return the
 //account keys (accountID, resourceID, validationHash).
-func (cs *Service) CreateAccount(ctx context.Context, username, password string) (keys *NewAccountKeys, err error) {
+func (cs *DefaultService) CreateAccount(ctx context.Context, username, password string) (keys *NewAccountKeys, err error) {
 
 	creds := &Account{Username: username, Password: password}
 
@@ -33,7 +33,7 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 	}
 
 	// Step 2 : validate email avalability
-	if err = cs.checkEmailAndUserAvalability(ctx, username); err != nil {
+	if err = cs.checkEmailAndUserAvailability(ctx, username); err != nil {
 		return nil, err
 	}
 
@@ -59,6 +59,7 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 		creds.ResourceID = resourceId.String()
 	}
 
+	// persist
 	ID, err := cs.accountRepository.SaveAccount(ctx, creds)
 	if err != nil {
 		return nil, err
@@ -74,9 +75,9 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 	return keys, nil
 }
 
-// checkEmailAndUserAvalability Check if there its already a account to that username if its the case it will
+// checkEmailAndUserAvailability Check if there its already a account to that username if its the case it will
 // it will get a AlreadyExistUsernameError
-func (cs *Service) checkEmailAndUserAvalability(ctx context.Context, username string) error {
+func (cs *DefaultService) checkEmailAndUserAvailability(ctx context.Context, username string) error {
 
 	accounts, err := cs.accountRepository.GetAccountsByUserName(ctx, username)
 	if err != nil {

@@ -11,7 +11,7 @@ import (
 )
 
 type Module struct {
-	AccountsService    *accounts.Service
+	AccountsService    accounts.Service
 	LoginAttempService *records.Service
 
 	tokenManager TokenManager
