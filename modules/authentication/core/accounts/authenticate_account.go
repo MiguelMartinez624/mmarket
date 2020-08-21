@@ -5,21 +5,18 @@ import (
 	cErr "github.com/miguelmartinez624/mmarket/modules/nodos/errors"
 )
 
-/**
-	Authenticate method to validate and account it follows the next step to performe this action
-	1- check that the account actually exist
-	2- validate the password agains the hashed password stored
-	3- checkout the state for the state of the account this may be on 3 different states
-
-		BLOCKED : may be for multiple reasons, it doesnt matter to the authentication process with
-        the account is blocked
-
-		UNVERIFIED : the account email its not verified yet so the ownership of the email provided
-		is still on a unknow state and the account cant be used.
-
-		ACTIVE : this is the ideal state of the account and the only one were the account can be used.
-
-*/
+//	Authenticate method to validate and account it follows the next step to performe this action.
+//	1- check that the account actually exist.
+//	2- validate the password against the hashed password stored.
+//	3- checkout the state for the state of the account this may be on 3 different states.
+//
+//	BLOCKED : may be for multiple reasons, it doesnt matter to the authentication process with
+//    the account is blocked.
+//
+//	UNVERIFIED : the account email its not verified yet so the ownership of the email provided
+//	is still on a unknown state and the account cant be used.
+//
+//	ACTIVE : this is the ideal state of the account and the only one were the account can be used.
 func (cs *Service) Authenticate(ctx context.Context, username string, password string) (account *Account, err error) {
 
 	account, err = cs.accountRepository.GetAccountsByUserName(ctx, username)
