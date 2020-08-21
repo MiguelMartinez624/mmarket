@@ -3,6 +3,7 @@ package accounts
 import "context"
 
 type MockRepository struct {
+	Data              map[string]Account
 	SaveHandlerFunc   func() (ID string, err error)
 	UpdateHandlerFunc func() (success bool, err error)
 	GetByUserNameFunc func() (account *Account, err error)

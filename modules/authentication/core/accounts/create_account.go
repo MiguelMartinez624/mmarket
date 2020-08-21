@@ -27,11 +27,12 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 
 	creds := &Account{Username: username, Password: password}
 
-	// need to validate the data that its coming here
+	// Step 1 : validate that the account data is valid...
 	if err = creds.ItsValid(); err != nil {
 		return nil, err
 	}
 
+	// Step 2 : validate email avalability
 	if err = cs.checkEmailAndUserAvalability(ctx, username); err != nil {
 		return nil, err
 	}
@@ -46,17 +47,18 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 	creds.Status = Unverified
 
 	// Here w use the encryter to create a validation hash
-	hash, err := cs.encrypter.GenerateValidationHash("randomSeed", "SEED")
-	if err != nil {
+	if hash, err := cs.encrypter.GenerateValidationHash("randomSeed", "SEED"); err != nil {
 		return nil, err
-	}
-	resourceId, err := uuid.NewUUID()
-	if err != nil {
-		panic(err) // handle
+	} else {
+		creds.ValidationHash = hash
 	}
 
-	creds.ValidationHash = hash
-	creds.ResourceID = resourceId.String()
+	if resourceId, err := uuid.NewUUID(); err != nil {
+		panic(err) // handle
+	} else {
+		creds.ResourceID = resourceId.String()
+	}
+
 	ID, err := cs.accountRepository.SaveAccount(ctx, creds)
 	if err != nil {
 		return nil, err
@@ -64,7 +66,7 @@ func (cs *Service) CreateAccount(ctx context.Context, username, password string)
 
 	keys = &NewAccountKeys{
 		AccountID:        ID,
-		VerificationHash: hash,
+		VerificationHash: creds.ValidationHash,
 		ResourceID:       creds.ResourceID,
 	}
 

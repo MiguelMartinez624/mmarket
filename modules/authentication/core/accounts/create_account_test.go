@@ -14,22 +14,18 @@ type createAccountTestCase struct {
 	wantErr       bool
 	expectedError error
 }
-var invalidUsernameCase = accountAuthenticateTestCase{
-	name:        "Try to get account with invalid username",
+var emptyEmailCase = createAccountTestCase{
+	name:        "Try to create email without email",
 	wantErr:     true,
-	wantAccount: nil,
-	fields: serviceDeps{
-		accountRepository: MockRepository{GetByUserNameFunc: func() (account *Account, err error) {
-			return nil, InvalidAccountsError
-		}},
-	},
-	expectedError: InvalidAccountsError,
+	wantKeys: nil,
+	fields: serviceDeps{},
+	expectedError: EmptyPasswordError,
 }
 
 func TestService_CreateAccount(t *testing.T) {
 
 	tests := []createAccountTestCase{
-
+		emptyEmailCase,
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -44,6 +40,12 @@ func TestService_CreateAccount(t *testing.T) {
 			}
 			if !reflect.DeepEqual(gotKeys, tt.wantKeys) {
 				t.Errorf("CreateAccount() gotKeys = %v, want %v", gotKeys, tt.wantKeys)
+			}
+
+			if tt.wantErr {
+				if !reflect.DeepEqual(err, tt.expectedError) {
+					t.Errorf("CreateAccount() gotError = %v, want %v", err, tt.expectedError)
+				}
 			}
 		})
 	}
