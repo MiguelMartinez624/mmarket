@@ -3,6 +3,8 @@ package users
 import (
 	"context"
 	"github.com/miguelmartinez624/mmarket/modules/nodos"
+	"log"
+	"time"
 
 	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 )
@@ -10,13 +12,33 @@ import (
 // Module for the users profile domian administration
 type Module struct {
 	profileService *profiles.Service
+	notify         nodos.EventHandler
 }
 
 func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
-
+	m.notify = handler
 }
 
 func (m *Module) ListenEvents(net chan nodos.Event) {
+	for ev := range net {
+		switch ev.Name {
+		case nodos.ACCOUNT_CREATED:
+			// on fail case
+			var profile profiles.Profile
+			if err := ev.GetData(&profile); err != nil {
+				log.Println(err)
+				return
+			}
+
+			//succeed case
+			ctx := context.WithTimeout(context.Background(), 10*time.Second)
+			m.CreateNewUserProfile(ctx, &profile)
+			break
+		default:
+			log.Println("Unhandled event.")
+			log.Println(ev)
+		}
+	}
 }
 
 func BuildModule(profileStore profiles.Store) *Module {

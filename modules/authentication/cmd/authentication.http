@@ -7,7 +7,7 @@ Accept: application/json
   "username":"contador42",
   "email":"contador42@correo.com",
   "resource": {
-     "name":"miguel",
+     "firstname":"miguel",
      "lastname" : "martinez"
   }
 }
