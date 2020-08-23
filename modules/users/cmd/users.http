@@ -1,0 +1,15 @@
+### SignUp request
+POST http://localhost:8000/auth/signup
+Accept: application/json
+
+{
+  "password":"password",
+  "username":"contador42",
+  "email":"contador42@correo.com",
+  "resource": {
+     "name":"miguel",
+     "lastname" : "martinez"
+  }
+}
+
+

@@ -24,3 +24,24 @@ type Profile struct {
 	Roles     []Roles       `json:"roles" bson:"roles,omitempty"`
 	Address   []Address     `json:"address" bson:"address,omitempty"`
 }
+
+func (p *Profile) IsValid() error {
+
+	if p.AccountID == "" {
+		return MissingAccountIDError{}
+	}
+
+	if p.FirstName == "" {
+		return MissingFirstNameError{}
+	}
+
+	if p.Roles == nil {
+		return ErrMissinRole{}
+	}
+
+	if len(p.Contacts) == 0 {
+		return NoContactsOnProfileError{}
+	}
+
+	return nil
+}

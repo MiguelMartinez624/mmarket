@@ -6,7 +6,6 @@ import (
 
 type Service struct {
 	profileStore Store
-	validator    Validator
 }
 
 func NewService(profileStore Store) *Service {
@@ -14,8 +13,8 @@ func NewService(profileStore Store) *Service {
 }
 
 func (s *Service) CreateProfile(ctx context.Context, profile *Profile) (ID string, err error) {
-	err = s.validator.ValidateProfile(profile)
-	if err != nil {
+
+	if err = profile.IsValid(); err != nil {
 		return "", err
 	}
 
@@ -31,33 +30,6 @@ func (s *Service) CreateProfile(ctx context.Context, profile *Profile) (ID strin
 	return
 }
 
-func (s *Service) GetProfileByAccountID(ctx context.Context, accountID string) (p *Profile, err error) {
-
-	if accountID == "" {
-		return nil, MissingParamError{Param: "accountID"}
-	}
-
-	p, err = s.profileStore.FindProfileByAccountID(ctx, accountID)
-	if err != nil {
-		return nil, err
-	}
-
-	return p, err
-}
-
-func (s *Service) GetProfileByID(ctx context.Context, profileID string) (p *Profile, err error) {
-
-	if profileID == "" {
-		return nil, MissingParamError{Param: "profileID"}
-	}
-
-	p, err = s.profileStore.FindProfileByID(ctx, profileID)
-	if err != nil {
-		return nil, err
-	}
-
-	return p, err
-}
 
 func (s *Service) ValidateMainContactInfo(ctx context.Context, accountID string, valid bool) (success bool, err error) {
 	p, err := s.profileStore.FindProfileByAccountID(ctx, accountID)

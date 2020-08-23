@@ -2,6 +2,7 @@ package users
 
 import (
 	"context"
+	"github.com/miguelmartinez624/mmarket/modules/nodos"
 
 	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 )
@@ -9,6 +10,13 @@ import (
 // Module for the users profile domian administration
 type Module struct {
 	profileService *profiles.Service
+}
+
+func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
+
+}
+
+func (m *Module) ListenEvents(net chan nodos.Event) {
 }
 
 func BuildModule(profileStore profiles.Store) *Module {
