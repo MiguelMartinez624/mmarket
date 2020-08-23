@@ -3,7 +3,7 @@ package accounts
 import (
 	"context"
 	"github.com/google/uuid"
-	cErr "github.com/miguelmartinez624/mmarket/modules/nodos/errors"
+	cErr "github.com/miguelmartinez624/mmarket/nodos/errors"
 	"log"
 )
 

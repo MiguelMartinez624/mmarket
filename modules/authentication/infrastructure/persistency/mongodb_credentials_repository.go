@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
-	"github.com/miguelmartinez624/mmarket/modules/nodos/repositories"
+	"github.com/miguelmartinez624/mmarket/nodos/repositories"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )

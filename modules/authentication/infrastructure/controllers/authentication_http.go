@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
-	"github.com/miguelmartinez624/mmarket/modules/authentication/core/dto"
+	"github.com/miguelmartinez624/mmarket/modules/dto"
 )
 
 type AuthenticationHTTP struct {

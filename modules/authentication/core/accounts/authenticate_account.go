@@ -2,7 +2,7 @@ package accounts
 
 import (
 	"context"
-	cErr "github.com/miguelmartinez624/mmarket/modules/nodos/errors"
+	cErr "github.com/miguelmartinez624/mmarket/nodos/errors"
 )
 
 //Authenticate method to validate and account it follows the next step to performe this action.

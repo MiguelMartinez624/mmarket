@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/miguelmartinez624/mmarket/modules/nodos"
 	"github.com/miguelmartinez624/mmarket/modules/users"
+	"github.com/miguelmartinez624/mmarket/nodos"
 	"log"
 	"net/http"
 	"time"

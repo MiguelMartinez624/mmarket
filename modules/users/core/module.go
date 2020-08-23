@@ -2,7 +2,7 @@ package users
 
 import (
 	"context"
-	"github.com/miguelmartinez624/mmarket/modules/nodos"
+	"github.com/miguelmartinez624/mmarket/nodos"
 	"log"
 	"time"
 
@@ -23,6 +23,7 @@ func (m *Module) ListenEvents(net chan nodos.Event) {
 	for ev := range net {
 		switch ev.Name {
 		case nodos.ACCOUNT_CREATED:
+			log.Printf("INCOMING :: %s", ev)
 			// on fail case
 			var profile profiles.Profile
 			if err := ev.GetData(&profile); err != nil {
@@ -31,7 +32,7 @@ func (m *Module) ListenEvents(net chan nodos.Event) {
 			}
 
 			//succeed case
-			ctx := context.WithTimeout(context.Background(), 10*time.Second)
+			ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 			m.CreateNewUserProfile(ctx, &profile)
 			break
 		default:
@@ -48,7 +49,11 @@ func BuildModule(profileStore profiles.Store) *Module {
 }
 
 func (m *Module) CreateNewUserProfile(ctx context.Context, p *profiles.Profile) (ID string, err error) {
-	return m.profileService.CreateProfile(ctx, p)
+	ID, err = m.profileService.CreateProfile(ctx, p)
+	if err != nil {
+		m.notify(nodos.Event{Name: nodos.PROFILE_ERROR, Data: err})
+	}
+	return
 }
 
 func (m *Module) GetAccountProfile(ctx context.Context, accountID string) (ID *profiles.Profile, err error) {

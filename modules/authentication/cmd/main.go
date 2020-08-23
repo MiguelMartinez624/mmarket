@@ -5,7 +5,7 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication"
-	"github.com/miguelmartinez624/mmarket/modules/nodos"
+	"github.com/miguelmartinez624/mmarket/nodos"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"

@@ -2,11 +2,11 @@ package auth
 
 import (
 	"context"
-	"fmt"
+
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
-	"github.com/miguelmartinez624/mmarket/modules/authentication/core/dto"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/records"
-	"github.com/miguelmartinez624/mmarket/modules/nodos"
+	"github.com/miguelmartinez624/mmarket/modules/dto"
+	"github.com/miguelmartinez624/mmarket/nodos"
 	"log"
 )
 
@@ -53,7 +53,7 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 	}
 
 	//Create and sent the event.
-	ev := nodos.Event{Name: ACCOUNT_CREATED, Data: evData}
+	ev := nodos.Event{Name: nodos.ACCOUNT_CREATED, Data: evData}
 	m.notify(ev)
 
 	return true, nil
@@ -96,6 +96,6 @@ func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
 
 func (m *Module) ListenEvents(net chan nodos.Event) {
 	for ev := range net {
-		fmt.Println(ev)
+		log.Printf("%s",ev)
 	}
 }
