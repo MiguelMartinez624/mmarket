@@ -5,7 +5,7 @@ import "context"
 // Service contains the logic of this domain, accounts it use its the gate
 // to validate and store, search delete accounts
 type Service interface {
-	CreateAccount(ctx context.Context, username, password string) (keys *NewAccountKeys, err error)
+	CreateAccount(ctx context.Context,acc Account) (keys *NewAccountKeys, err error)
 
 	Authenticate(ctx context.Context, username string, password string) (account *Account, err error)
 

@@ -3,7 +3,7 @@ package tests
 import (
 	"context"
 
-	"github.com/miguelmartinez624/mmarket/modules/users/core/domains/profiles"
+	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 )
 
 var DATABASE map[string]*profiles.Profile = make(map[string]*profiles.Profile)

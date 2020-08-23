@@ -22,7 +22,7 @@ type Account struct {
 	ID             string        `json:"_id" bson:"_id,omitempty"`
 	Username       string        `json:"username" bson:"username,omitempty"`
 	Password       string        `json:"password" bson:"password,omitempty"`
-	Email          string        `json:"email" bson:"password,omitempty"`
+	Email          string        `json:"email" bson:"email,omitempty"`
 	Status         AccountStatus `json:"status" bson:"status,omitempty"`
 	ValidationHash string        `json:"validation_hash" bson:"validation_hash,omitempty"`
 	ResourceID     string

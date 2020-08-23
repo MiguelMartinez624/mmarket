@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/miguelmartinez624/mmarket/modules/users/core/domains/profiles"
+	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

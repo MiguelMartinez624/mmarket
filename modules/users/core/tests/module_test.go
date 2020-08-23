@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	users "github.com/miguelmartinez624/mmarket/modules/users/core"
-	"github.com/miguelmartinez624/mmarket/modules/users/core/domains/profiles"
+	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 	"golang.org/x/net/context"
 )
 

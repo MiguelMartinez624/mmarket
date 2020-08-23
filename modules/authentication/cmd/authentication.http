@@ -4,11 +4,11 @@ Accept: application/json
 
 {
   "password":"password",
-  "username":"contador4",
-  "email":"contador4@correo.com",
-  "profile": {
-  "name":"miguel",
-  "lastname" : "martinez"
+  "username":"contador42",
+  "email":"contador42@correo.com",
+  "resource": {
+     "name":"miguel",
+     "lastname" : "martinez"
   }
 }
 

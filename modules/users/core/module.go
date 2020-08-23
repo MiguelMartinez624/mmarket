@@ -3,7 +3,7 @@ package users
 import (
 	"context"
 
-	"github.com/miguelmartinez624/mmarket/modules/users/core/domains/profiles"
+	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 )
 
 // Module for the users profile domian administration

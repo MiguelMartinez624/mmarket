@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/google/uuid"
 	cErr "github.com/miguelmartinez624/mmarket/modules/nodos/errors"
+	"log"
 )
 
 //CreateAccount take care of all steps and validations to create a account, a username and email can only belong to 1
@@ -23,52 +24,52 @@ import (
 //
 //* Step 5: the final step its to create a Unique ID to a resource that this account its guarding and return the
 //account keys (accountID, resourceID, validationHash).
-func (cs *DefaultService) CreateAccount(ctx context.Context, username, password string) (keys *NewAccountKeys, err error) {
+func (cs *DefaultService) CreateAccount(ctx context.Context, acc Account) (keys *NewAccountKeys, err error) {
 
-	creds := &Account{Username: username, Password: password}
+	log.Println("Creating account..")
 
 	// Step 1 : validate that the account data is valid...
-	if err = creds.ItsValid(); err != nil {
+	if err = acc.ItsValid(); err != nil {
 		return nil, err
 	}
 
 	// Step 2 : validate email avalability
-	if err = cs.checkEmailAndUserAvailability(ctx, username); err != nil {
+	if err = cs.checkEmailAndUserAvailability(ctx, acc.Username); err != nil {
 		return nil, err
 	}
 
 	// Hash and change the password to be stored as a hash
-	passwordHash, err := cs.encrypter.HashPassword(creds.Password)
+	passwordHash, err := cs.encrypter.HashPassword(acc.Password)
 	if err != nil {
 		return nil, err
 	}
 
-	creds.Password = passwordHash
-	creds.Status = Unverified
+	acc.Password = passwordHash
+	acc.Status = Unverified
 
 	// Here w use the encryter to create a validation hash
 	if hash, err := cs.encrypter.GenerateValidationHash("randomSeed", "SEED"); err != nil {
 		return nil, err
 	} else {
-		creds.ValidationHash = hash
+		acc.ValidationHash = hash
 	}
 
 	if resourceId, err := uuid.NewUUID(); err != nil {
 		panic(err) // handle
 	} else {
-		creds.ResourceID = resourceId.String()
+		acc.ResourceID = resourceId.String()
 	}
 
 	// persist
-	ID, err := cs.accountRepository.SaveAccount(ctx, creds)
+	ID, err := cs.accountRepository.SaveAccount(ctx, &acc)
 	if err != nil {
 		return nil, err
 	}
 
 	keys = &NewAccountKeys{
 		AccountID:        ID,
-		VerificationHash: creds.ValidationHash,
-		ResourceID:       creds.ResourceID,
+		VerificationHash: acc.ValidationHash,
+		ResourceID:       acc.ResourceID,
 	}
 
 	// OK!

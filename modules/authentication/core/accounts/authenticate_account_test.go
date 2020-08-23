@@ -43,7 +43,7 @@ func TestService_Authenticate(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			cs := &Service{
+			cs := &DefaultService{
 				accountRepository: tt.fields.accountRepository,
 				encrypter:         tt.fields.encrypter,
 			}

@@ -36,7 +36,10 @@ func NewAuthentication(
 //RegisterAccounts register a account and sent te profile data to the profiles data.
 func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUser) (success bool, err error) {
 
-	keys, err := m.AccountsService.CreateAccount(ctx, register.Username, register.Password)
+	keys, err := m.AccountsService.CreateAccount(ctx, accounts.Account{
+		Username: register.Username,
+		Email:    register.Email,
+		Password: register.Password})
 	if err != nil {
 		return false, err
 	}
@@ -61,7 +64,6 @@ func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccoun
 	if err != nil {
 		return "", err
 	}
-
 
 	token, err = m.tokenManager.GenerateToken(account, account.ResourceID)
 	if err != nil {
