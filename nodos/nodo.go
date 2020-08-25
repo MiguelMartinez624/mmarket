@@ -1,18 +1,17 @@
 package nodos
 
-type Nodo interface {
+type Connectable interface {
 	SetNotificationHandler(EventHandler)
 
 	ListenEvents(net NeuralRed)
 }
 
 //NodoBuilder build the nodo
-type NodoBuilder struct {
+type Cell struct {
 	Name string
-	Nodo Nodo
 }
 
-func (n NodoBuilder) Build() chan Event {
+func (n *Cell) Build() chan Event {
 	ch := make(chan Event)
 	return ch
 

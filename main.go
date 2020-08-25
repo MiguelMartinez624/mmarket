@@ -25,7 +25,7 @@ func main() {
 	defer cancel()
 	r := mux.NewRouter()
 	//AuthenticationModule
-	authModule := auth.BuildAuthModule(client, r)
+	authModule, authCell := auth.BuildAuthModule(client, r)
 	usersModule := users.BuildUsersModule(client, r)
 	//storesModule := stores.BuildModule(client, r)
 	//ordersModule := orders.BuildModule(client, r)
@@ -35,9 +35,8 @@ func main() {
 	//middlewares.SetStoresModule(storesModule)
 
 	manager := nodos.Manager{
-		Nodos: []nodos.NodoBuilder{
-			nodos.NodoBuilder{Name: "authentication", Nodo: authModule},
-			nodos.NodoBuilder{Name: "Profiles", Nodo: usersModule},
+		Nodos: []nodos.Cell{
+			authCell,
 		},
 	}
 

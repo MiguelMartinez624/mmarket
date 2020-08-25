@@ -10,12 +10,16 @@ import (
 	"log"
 )
 
+type AccountCreateCallback func(ev *dto.AccountRegisterEventData)
+
 type Module struct {
 	AccountsService    accounts.Service
 	LoginAttempService *records.Service
 
 	tokenManager TokenManager
-	notify       nodos.EventHandler
+
+	// Events handlers
+	OnAccountCreated AccountCreateCallback
 }
 
 func NewAuthentication(
@@ -44,17 +48,17 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 		return false, err
 	}
 
-	log.Printf("enviar a comunication %v")
 
-	// Sent the Resource and the ID that is under the account for that resource
-	evData := dto.AccountRegisterEventData{
-		ResourceID: keys.ResourceID,
-		Resource:   register.Resource,
-	}
 
 	//Create and sent the event.
-	ev := nodos.Event{Name: nodos.ACCOUNT_CREATED, Data: evData}
-	m.notify(ev)
+	if m.OnAccountCreated != nil {
+		// Sent the Resource and the ID that is under the account for that resource
+		evData := dto.AccountRegisterEventData{
+			ResourceID: keys.ResourceID,
+			Resource:   register.Resource,
+		}
+		m.OnAccountCreated(evData)
+	}
 
 	return true, nil
 }
@@ -90,12 +94,14 @@ func (m *Module) ValidateToken(ctx context.Context, token string) (claims *Token
 	return m.tokenManager.ValidateToken(token)
 }
 
+//Todo move from here
+
 func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
-	m.notify = handler
+
 }
 
 func (m *Module) ListenEvents(net nodos.NeuralRed) {
 	for ev := range net {
-		log.Printf("%s",ev)
+		log.Printf("%s", ev)
 	}
 }

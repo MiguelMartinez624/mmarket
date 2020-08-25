@@ -3,7 +3,7 @@ package nodos
 type NeuralRed = map[string]chan Event
 
 type Manager struct {
-	Nodos       []NodoBuilder
+	Nodos       []Cell
 	connections NeuralRed
 }
 
