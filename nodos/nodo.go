@@ -1,18 +1,28 @@
 package nodos
 
 type Connectable interface {
-	SetNotificationHandler(EventHandler)
+	Join(net NeuralRed)
 
 	ListenEvents(net NeuralRed)
 }
 
 //NodoBuilder build the nodo
-type Cell struct {
+type Neuron struct {
 	Name string
+	Cell  Connectable
+	// oun channel to pull out
+	outCh chan Event
 }
 
-func (n *Cell) Build() chan Event {
-	ch := make(chan Event)
-	return ch
+func (n *Neuron) BroadcastToRedev(ev Event) {
+	n.outCh <- ev
+}
+
+func (n *Neuron) Build() chan Event {
+	if n.outCh == nil {
+		n.outCh = make(chan Event)
+	}
+
+	return n.outCh
 
 }

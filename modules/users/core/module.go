@@ -20,7 +20,7 @@ func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
 
 func (m *Module) ListenEvents(net nodos.NeuralRed) {
 
-	if authCon := net["authentication"]; authCon != nil {
+	if authCon := net.Connections["authentication"]; authCon != nil {
 		for ev := range authCon {
 			switch ev.Name {
 			case nodos.ACCOUNT_CREATED:

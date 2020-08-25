@@ -1,24 +1,34 @@
 package nodos
 
-type NeuralRed = map[string]chan Event
+type NeuralRed struct {
+	Connections map[string]chan Event
+}
+
+func (r *NeuralRed) Emit(chanName string, ev Event) {
+	if ch := r.Connections[chanName]; ch != nil {
+		ch <- ev
+	}
+}
 
 type Manager struct {
-	Nodos       []Cell
-	connections NeuralRed
+	Nodos     []Neuron
+	neuralRed *NeuralRed
 }
 
 func (m *Manager) Start() {
-	if m.connections == nil {
-		m.connections = NeuralRed{}
+	if m.neuralRed == nil {
+		m.neuralRed = &NeuralRed{
+			Connections: map[string]chan Event{},
+		}
 	}
 
 	// First build each one of the nodos, so we can have all setup for
 	// bind the communications channels (connections)
 	for _, nodo := range m.Nodos {
 		// Get the channel for each node.
-		if _, ok := m.connections[nodo.Name]; !ok {
+		if _, ok := m.neuralRed.Connections[nodo.Name]; !ok {
 			ch := nodo.Build()
-			m.connections[nodo.Name] = ch
+			m.neuralRed.Connections[nodo.Name] = ch
 		}
 	}
 

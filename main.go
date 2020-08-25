@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/miguelmartinez624/mmarket/modules/users"
 	"github.com/miguelmartinez624/mmarket/nodos"
 	"log"
 	"net/http"
@@ -25,8 +24,8 @@ func main() {
 	defer cancel()
 	r := mux.NewRouter()
 	//AuthenticationModule
-	authModule, authCell := auth.BuildAuthModule(client, r)
-	usersModule := users.BuildUsersModule(client, r)
+	authModule := auth.BuildAuthModule(client, r)
+	//usersModule := users.BuildUsersModule(client, r)
 	//storesModule := stores.BuildModule(client, r)
 	//ordersModule := orders.BuildModule(client, r)
 
@@ -35,8 +34,8 @@ func main() {
 	//middlewares.SetStoresModule(storesModule)
 
 	manager := nodos.Manager{
-		Nodos: []nodos.Cell{
-			authCell,
+		Nodos: []nodos.Neuron{
+			{Name: "authentication", Cell: authModule},
 		},
 	}
 

@@ -2,7 +2,6 @@ package auth
 
 import (
 	"fmt"
-	"github.com/miguelmartinez624/mmarket/nodos"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -16,17 +15,15 @@ import (
 
 const DB_URI = "mongodb://localhost:27017"
 
-func BuildAuthModule(client *mongo.Client, r *mux.Router) (module authModule.Module, cell *nodos.Cell) {
+func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Module {
 
 	mongoCredsRepo := persistency.NewMongoDBAccountsRepository(client.Database("m_market").Collection("accounts"))
 	bcryptEncripter := utils.BcryptEncripter{}
 	jwtToken := &utils.JWTTokenManager{}
-	auth := authModule.NewAuthentication(mongoCredsRepo, bcryptEncripter, jwtToken)
-
-	cell := AuthCell{}
+	module := authModule.NewAuthentication(mongoCredsRepo, bcryptEncripter, jwtToken)
 
 	//Http Controller
-	httpController := controllers.NewAuthHTTP(auth)
+	httpController := controllers.NewAuthHTTP(module)
 
 	//we add endpoints here to mux
 
@@ -36,5 +33,5 @@ func BuildAuthModule(client *mongo.Client, r *mux.Router) (module authModule.Mod
 	http.Handle("/", r)
 
 	fmt.Println("Auth Module running ...")
-	return auth, &cell
+	return module
 }

@@ -6,8 +6,6 @@ import (
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/records"
 	"github.com/miguelmartinez624/mmarket/modules/dto"
-	"github.com/miguelmartinez624/mmarket/nodos"
-	"log"
 )
 
 type AccountCreateCallback func(ev *dto.AccountRegisterEventData)
@@ -48,8 +46,6 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 		return false, err
 	}
 
-
-
 	//Create and sent the event.
 	if m.OnAccountCreated != nil {
 		// Sent the Resource and the ID that is under the account for that resource
@@ -57,7 +53,7 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 			ResourceID: keys.ResourceID,
 			Resource:   register.Resource,
 		}
-		m.OnAccountCreated(evData)
+		m.OnAccountCreated(&evData)
 	}
 
 	return true, nil
@@ -78,14 +74,14 @@ func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccoun
 }
 
 func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool, err error) {
-	account, err := m.AccountsService.ValidateAccountWithHash(ctx, hash)
+	_, err = m.AccountsService.ValidateAccountWithHash(ctx, hash)
 	if err != nil {
 		return false, err
 	}
 	//Once the account its validated we procced to mark the email as valid
 	//Create and sent the event.
-	ev := nodos.Event{Name: ACCOUNT_EMAIL_VERIFIED, Data: account.Username}
-	m.notify(ev)
+	//ev := nodos.Event{Name: ACCOUNT_EMAIL_VERIFIED, Data: account.Username}
+	//m.notify(ev)
 
 	return true, nil
 }
@@ -94,14 +90,3 @@ func (m *Module) ValidateToken(ctx context.Context, token string) (claims *Token
 	return m.tokenManager.ValidateToken(token)
 }
 
-//Todo move from here
-
-func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
-
-}
-
-func (m *Module) ListenEvents(net nodos.NeuralRed) {
-	for ev := range net {
-		log.Printf("%s", ev)
-	}
-}
