@@ -15,13 +15,15 @@ import (
 
 const DB_URI = "mongodb://localhost:27017"
 
-func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Module {
+func BuildAuthModule(client *mongo.Client, r *mux.Router) (*authModule.Module, *AuthCell) {
 
 	mongoCredsRepo := persistency.NewMongoDBAccountsRepository(client.Database("m_market").Collection("accounts"))
 	bcryptEncripter := utils.BcryptEncripter{}
 	jwtToken := &utils.JWTTokenManager{}
 	module := authModule.NewAuthentication(mongoCredsRepo, bcryptEncripter, jwtToken)
-
+	cell := AuthCell{
+		module: module,
+	}
 	//Http Controller
 	httpController := controllers.NewAuthHTTP(module)
 
@@ -33,5 +35,5 @@ func BuildAuthModule(client *mongo.Client, r *mux.Router) *authModule.Module {
 	http.Handle("/", r)
 
 	fmt.Println("Auth Module running ...")
-	return module
+	return module, &cell
 }

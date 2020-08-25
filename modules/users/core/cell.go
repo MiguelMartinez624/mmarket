@@ -14,13 +14,14 @@ func (m *Module) Join(net *nodos.NeuralRed) {
 		for ev := range authCon {
 			switch ev.Name {
 			case nodos.ACCOUNT_CREATED:
-				log.Printf("INCOMING :: %s", ev)
+
 				// on fail case
 				var profile profiles.Profile
 				if err := ev.GetData(&profile); err != nil {
 					log.Println(err)
 					return
 				}
+
 
 				//succeed case
 				ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
@@ -33,6 +34,4 @@ func (m *Module) Join(net *nodos.NeuralRed) {
 		}
 	}
 
-
 }
-

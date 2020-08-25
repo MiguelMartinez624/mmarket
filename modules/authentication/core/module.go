@@ -52,6 +52,7 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 		evData := dto.AccountRegisterEventData{
 			ResourceID: keys.ResourceID,
 			Resource:   register.Resource,
+			Email:      register.Email,
 		}
 		m.OnAccountCreated(&evData)
 	}
@@ -89,4 +90,3 @@ func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool
 func (m *Module) ValidateToken(ctx context.Context, token string) (claims *TokenClaims, err error) {
 	return m.tokenManager.ValidateToken(token)
 }
-
