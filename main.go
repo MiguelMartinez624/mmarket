@@ -34,10 +34,12 @@ func main() {
 	middlewares.SetAuthModule(authModule)
 	//middlewares.SetStoresModule(storesModule)
 
-	manager := nodos.Manager{[]nodos.Nodo{
-		authModule,
-		usersModule,
-	}}
+	manager := nodos.Manager{
+		Nodos: []nodos.NodoBuilder{
+			nodos.NodoBuilder{Name: "authentication", Nodo: authModule},
+			nodos.NodoBuilder{Name: "Profiles", Nodo: usersModule},
+		},
+	}
 
 	go manager.Start()
 	// Service start

@@ -94,7 +94,7 @@ func (m *Module) SetNotificationHandler(handler nodos.EventHandler) {
 	m.notify = handler
 }
 
-func (m *Module) ListenEvents(net chan nodos.Event) {
+func (m *Module) ListenEvents(net nodos.NeuralRed) {
 	for ev := range net {
 		log.Printf("%s",ev)
 	}
