@@ -1,9 +1,7 @@
 package nodos
 
 type Connectable interface {
-	Join(net NeuralRed)
-
-	ListenEvents(net NeuralRed)
+	Join(net *NeuralRed)
 }
 
 //NodoBuilder build the nodo

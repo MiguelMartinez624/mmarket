@@ -32,12 +32,10 @@ func (m *Manager) Start() {
 		}
 	}
 
-	//go func(n Nodo) {
-	//
-	//	n.SetNotificationHandler(func(ev Event) {
-	//		log.Printf("SENDING :: %s", ev)
-	//		net <- ev
-	//	})
-	//	n.ListenEvents(net)
-	//}(nodo)
+	for _, n := range m.Nodos {
+
+		go func(n Neuron) {
+			n.Cell.Join(m.neuralRed)
+		}(n)
+	}
 }

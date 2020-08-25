@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/miguelmartinez624/mmarket/modules/users"
 	"github.com/miguelmartinez624/mmarket/nodos"
 	"log"
 	"net/http"
@@ -25,7 +26,7 @@ func main() {
 	r := mux.NewRouter()
 	//AuthenticationModule
 	authModule := auth.BuildAuthModule(client, r)
-	//usersModule := users.BuildUsersModule(client, r)
+	usersModule := users.BuildUsersModule(client, r)
 	//storesModule := stores.BuildModule(client, r)
 	//ordersModule := orders.BuildModule(client, r)
 
@@ -36,6 +37,7 @@ func main() {
 	manager := nodos.Manager{
 		Nodos: []nodos.Neuron{
 			{Name: "authentication", Cell: authModule},
+			{Name: "users", Cell: usersModule},
 		},
 	}
 

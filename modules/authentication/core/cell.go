@@ -5,7 +5,7 @@ import (
 	"github.com/miguelmartinez624/mmarket/nodos"
 )
 
-func (m *Module) Join(red nodos.NeuralRed) {
+func (m *Module) Join(red *nodos.NeuralRed) {
 	m.OnAccountCreated = func(ev *dto.AccountRegisterEventData) {
 		redEvent := nodos.Event{
 			Name: nodos.ACCOUNT_CREATED,
@@ -15,10 +15,5 @@ func (m *Module) Join(red nodos.NeuralRed) {
 		red.Emit("authentication", redEvent)
 
 	}
-
-}
-
-// this one doesn't need to listen to any channel.
-func (a *Module) ListenEvents(net nodos.NeuralRed) {
 
 }
