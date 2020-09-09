@@ -39,11 +39,9 @@ func (a *Account) ItsValid() error {
 		return EmptyEmailError
 	}
 
-
 	if a.Password == "" {
 		return EmptyPasswordError
 	}
-
 
 	if a.Username == "" {
 		a.Username = a.Email
@@ -56,4 +54,5 @@ type NewAccountKeys struct {
 	AccountID        string
 	VerificationHash string
 	ResourceID       string
+	Email            string
 }

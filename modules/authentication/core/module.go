@@ -8,7 +8,7 @@ import (
 	"github.com/miguelmartinez624/mmarket/modules/dto"
 )
 
-type AccountCreateCallback func(ev *dto.AccountRegisterEventData)
+type AccountCreateCallback func(ev *accounts.NewAccountKeys, err error)
 
 type Module struct {
 	AccountsService    accounts.Service
@@ -49,12 +49,7 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 	//Create and sent the event.
 	if m.OnAccountCreated != nil {
 		// Sent the Resource and the ID that is under the account for that resource
-		evData := dto.AccountRegisterEventData{
-			ResourceID: keys.ResourceID,
-			Resource:   register.Resource,
-			Email:      register.Email,
-		}
-		m.OnAccountCreated(&evData)
+		m.OnAccountCreated(keys, err)
 	}
 
 	return true, nil
