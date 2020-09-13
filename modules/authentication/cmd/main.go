@@ -21,9 +21,6 @@ func main() {
 	r := mux.NewRouter()
 
 	module := auth.BuildAuthModule(client, r)
-	module.SetNotificationHandler(func(ev nodos.Event) {
-		log.Println(ev)
-	})
 
 	// Service start
 	handler := handlers.CORS(

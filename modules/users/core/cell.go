@@ -2,6 +2,8 @@ package users
 
 import (
 	"context"
+	"encoding/json"
+	"github.com/miguelmartinez624/mmarket/modules/events"
 	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 	"github.com/miguelmartinez624/mmarket/nodos"
 	"log"
@@ -16,16 +18,21 @@ func (m *Module) Join(net *nodos.NeuralRed) {
 			case nodos.ACCOUNT_CREATED:
 
 				// on fail case
-				var profile profiles.Profile
-				if err := ev.GetData(&profile); err != nil {
-					log.Println(err)
-					return
+				 data  := ev.Data.(events.AccountCreatedEventData)
+
+				jsonString, err := json.Marshal(data.Resource)
+				if err != nil {
+					panic(err)
+				}
+				var output profiles.Profile
+				if err := json.Unmarshal(jsonString, output); err != nil {
+					panic( err)
 				}
 
-
+				log.Println(output)
 				//succeed case
 				ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-				m.CreateNewUserProfile(ctx, &profile)
+				m.CreateNewUserProfile(ctx, &output)
 				break
 			default:
 				log.Println("Unhandled event.")
