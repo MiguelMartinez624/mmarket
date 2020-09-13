@@ -21,7 +21,6 @@ type Profile struct {
 	FirstName string        `json:"firstname" bson:"firstname,omitempty"`
 	LastName  string        `json:"lastname" bson:"lastname,omitempty"`
 	Contacts  []ContactInfo `json:"contacts" bson:"contacts,omitempty"`
-	Roles     []Roles       `json:"roles" bson:"roles,omitempty"`
 	Address   []Address     `json:"address" bson:"address,omitempty"`
 }
 
@@ -33,10 +32,6 @@ func (p *Profile) IsValid() error {
 
 	if p.FirstName == "" {
 		return MissingFirstNameError{}
-	}
-
-	if p.Roles == nil {
-		return ErrMissinRole{}
 	}
 
 	if len(p.Contacts) == 0 {

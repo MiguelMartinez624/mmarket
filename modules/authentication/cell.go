@@ -5,6 +5,7 @@ import (
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
 	"github.com/miguelmartinez624/mmarket/modules/events"
 	"github.com/miguelmartinez624/mmarket/nodos"
+	"log"
 )
 
 type AuthCell struct {
@@ -25,7 +26,7 @@ func (c *AuthCell) Join(red *nodos.NeuralRed) {
 			Name: nodos.ACCOUNT_CREATED,
 			Data: data,
 		}
-
+		log.Println(redEvent)
 		red.Emit("authentication", redEvent)
 
 	}

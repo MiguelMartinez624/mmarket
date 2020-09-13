@@ -61,9 +61,10 @@ func main() {
 }
 
 func ConnectMongoDB(uri string) (client *mongo.Client, cancel context.CancelFunc) {
-
+	log.Println("Connecting to MongoDB...")
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 	if err != nil {
+		log.Println(err)
 		log.Fatal(err)
 	}
 

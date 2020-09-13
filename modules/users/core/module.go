@@ -3,6 +3,7 @@ package users
 import (
 	"context"
 	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
+	"log"
 )
 
 // Module for the users profile domian administration
@@ -21,7 +22,10 @@ func BuildModule(profileStore profiles.Store) *Module {
 
 func (m *Module) CreateNewUserProfile(ctx context.Context, p *profiles.Profile) (ID string, err error) {
 	ID, err = m.profileService.CreateProfile(ctx, p)
-
+	if err != nil {
+		log.Printf("ERROR -> CreateNewUserProfile  :: %v",err)
+	}
+	log.Printf("Account created ID [%s] \n",ID)
 	return
 }
 
