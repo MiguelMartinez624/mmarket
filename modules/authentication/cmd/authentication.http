@@ -4,8 +4,8 @@ Accept: application/json
 
 {
   "password":"password",
-  "username":"tesssstas_user11",
-  "email":"tesassstUsser1@correo.com",
+  "username":"tessssstas_user11",
+  "email":"tesasssstUsser1@correo.com",
   "resource": {
      "firstname":"miguel",
      "lastname" : "martinez"

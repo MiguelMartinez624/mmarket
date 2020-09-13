@@ -26,7 +26,7 @@ func main() {
 	r := mux.NewRouter()
 	//AuthenticationModule
 	authModule, authCell := auth.BuildAuthModule(client, r)
-	usersModule := users.BuildUsersModule(client, r)
+	_,usersCell := users.BuildUsersModule(client, r)
 	//storesModule := stores.BuildModule(client, r)
 	//ordersModule := orders.BuildModule(client, r)
 
@@ -37,7 +37,7 @@ func main() {
 	manager := nodos.Manager{
 		Nodos: []nodos.Neuron{
 			{Name: "authentication", Cell: authCell},
-			{Name: "users", Cell: usersModule},
+			{Name: "users", Cell: usersCell},
 		},
 	}
 
