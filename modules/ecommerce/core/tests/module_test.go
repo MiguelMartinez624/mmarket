@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/miguelmartinez624/mmarket/modules/stores/core"
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/stores"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/stores"
 )
 
 var store MuckStoreRepository = MuckStoreRepository{}

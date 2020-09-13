@@ -1,14 +1,14 @@
-package core
+package ecommerce
 
 import (
 	"context"
 	"fmt"
 	"sync"
 
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/products"
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/stores"
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/dto"
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/externals"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/dto"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/externals"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/products"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/stores"
 )
 
 type Module struct {
@@ -17,7 +17,7 @@ type Module struct {
 	proiflesModule  externals.ProfileModule
 }
 
-func NewModule(storeRepo stores.Repository, productsRepo products.Repository) *Module {
+func Build(storeRepo stores.Repository, productsRepo products.Repository) *Module {
 	storeService := stores.NewService(storeRepo)
 	productService := products.NewService(productsRepo)
 

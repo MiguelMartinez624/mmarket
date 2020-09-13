@@ -18,8 +18,8 @@ func BuildModule(client *mongo.Client, r *mux.Router) *core.Module {
 	httpController := gateways.NewHttpController(module)
 
 	//Store manage orders
-	r.HandleFunc("/stores/{store_id}/orders", httpController.CreateStoreOrder).Methods("POST")
-	r.HandleFunc("/stores/{store_id}/orders", httpController.GetStoreOrders).Methods("GET")
+	r.HandleFunc("/ecommerce/{store_id}/orders", httpController.CreateStoreOrder).Methods("POST")
+	r.HandleFunc("/ecommerce/{store_id}/orders", httpController.GetStoreOrders).Methods("GET")
 
 	//Profile management orders
 	r.HandleFunc("/profiles/{profile_id}/orders", httpController.CreateCostumerOrder).Methods("POST")

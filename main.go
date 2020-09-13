@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce"
 	"github.com/miguelmartinez624/mmarket/modules/users"
 	"github.com/miguelmartinez624/mmarket/nodos"
 	"log"
@@ -26,8 +27,9 @@ func main() {
 	r := mux.NewRouter()
 	//AuthenticationModule
 	authModule, authCell := auth.BuildAuthModule(client, r)
-	_,usersCell := users.BuildUsersModule(client, r)
-	//storesModule := stores.BuildModule(client, r)
+	_, usersCell := users.BuildUsersModule(client, r)
+	_, ecommerceCell := ecommerce.BuildModule(client, r)
+	//storesModule := ecommerce.BuildModule(client, r)
 	//ordersModule := orders.BuildModule(client, r)
 
 	// Mount middldeware dependencies
@@ -38,6 +40,7 @@ func main() {
 		Nodos: []nodos.Neuron{
 			{Name: "authentication", Cell: authCell},
 			{Name: "users", Cell: usersCell},
+			{Name: "E-Commerce", Cell: ecommerceCell},
 		},
 	}
 

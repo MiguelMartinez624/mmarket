@@ -3,7 +3,7 @@ package tests
 import (
 	"context"
 
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/dto"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/dto"
 )
 
 type MuckProfileModule struct{}

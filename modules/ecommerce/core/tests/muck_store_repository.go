@@ -3,7 +3,7 @@ package tests
 import (
 	"context"
 
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/stores"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/stores"
 )
 
 var DATABASE map[string]*stores.Store = make(map[string]*stores.Store)

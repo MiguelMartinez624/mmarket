@@ -7,16 +7,16 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/miguelmartinez624/mmarket/modules/stores/core"
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/products"
-	"github.com/miguelmartinez624/mmarket/modules/stores/core/domains/stores"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/products"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/stores"
 )
 
 type HttpController struct {
-	stores *core.Module
+	stores *ecommerce.Module
 }
 
-func NewHttpController(stores *core.Module) *HttpController {
+func NewHttpController(stores *ecommerce.Module) *HttpController {
 	return &HttpController{stores: stores}
 }
 

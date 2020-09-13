@@ -1,4 +1,4 @@
-package core
+package ecommerce
 
 import (
 	"context"

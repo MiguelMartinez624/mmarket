@@ -37,5 +37,7 @@ func (cs *DefaultService) ValidateAccountWithHash(ctx context.Context, hash stri
 		return nil, errors.New("Cound update,")
 	}
 
+	// remove password
+	acc.Password = ""
 	return acc, nil
 }

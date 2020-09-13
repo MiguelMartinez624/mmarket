@@ -9,6 +9,7 @@ import (
 )
 
 type AccountCreateCallback func(ev *accounts.NewAccountKeys, resource interface{}, err error)
+type AccountValidatedCallback func(account *accounts.Account, err error)
 
 type Module struct {
 	AccountsService    accounts.Service
@@ -17,7 +18,8 @@ type Module struct {
 	tokenManager TokenManager
 
 	// Events handlers
-	OnAccountCreated AccountCreateCallback
+	OnAccountCreated   AccountCreateCallback
+	OnAccountValidated AccountValidatedCallback
 }
 
 func NewAuthentication(
@@ -70,7 +72,7 @@ func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccoun
 }
 
 func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool, err error) {
-	_, err = m.AccountsService.ValidateAccountWithHash(ctx, hash)
+	account, err := m.AccountsService.ValidateAccountWithHash(ctx, hash)
 	if err != nil {
 		return false, err
 	}
@@ -78,6 +80,12 @@ func (m *Module) ValidateAccount(ctx context.Context, hash string) (success bool
 	//Create and sent the event.
 	//ev := nodos.Event{Name: ACCOUNT_EMAIL_VERIFIED, Data: account.Username}
 	//m.notify(ev)
+
+	//Create and sent the event.
+	if m.OnAccountValidated != nil {
+		// Sent the Resource and the ID that is under the account for that resource
+		m.OnAccountValidated(account, err)
+	}
 
 	return true, nil
 }

@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
-	sm "github.com/miguelmartinez624/mmarket/modules/stores/core"
+	sm "github.com/miguelmartinez624/mmarket/modules/ecommerce/core"
 )
 
 var authModule *auth.Module

@@ -38,6 +38,13 @@ type Service interface {
 	//	ACTIVE : this is the ideal state of the account and the only one were the account can be used.
 	Authenticate(ctx context.Context, username string, password string) (account *Account, err error)
 
+
+	//ValidateAccountWithHash : validate an account that has been just created, each account have a unique
+	//hash that its used to validate email ownership so we can be sure that the email belongs to the
+	//account creator, will change the AccountStatus to be 	Active if everything goes well
+	//
+	//Returns the account without the password for security reasons or a error if something goes wrong
+	//in the process
 	ValidateAccountWithHash(ctx context.Context, hash string) (acc *Account, err error)
 }
 
