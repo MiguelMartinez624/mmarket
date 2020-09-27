@@ -5,7 +5,6 @@ import (
 
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/records"
-	"github.com/miguelmartinez624/mmarket/modules/dto"
 )
 
 type AccountCreateCallback func(ev *accounts.NewAccountKeys, resource interface{}, err error)
@@ -38,7 +37,7 @@ func NewAuthentication(
 }
 
 //RegisterAccounts register a account and sent te profile data to the profiles data.
-func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUser) (success bool, err error) {
+func (m *Module) RegisterAccounts(ctx context.Context, register *RegisterUser) (success bool, err error) {
 
 	keys, err := m.AccountsService.CreateAccount(ctx, accounts.Account{
 		Username: register.Username,
@@ -57,7 +56,7 @@ func (m *Module) RegisterAccounts(ctx context.Context, register *dto.RegisterUse
 	return true, nil
 }
 
-func (m *Module) Authenticate(ctx context.Context, loginAccount *dto.LoginAccount) (token string, err error) {
+func (m *Module) Authenticate(ctx context.Context, loginAccount *LoginAccount) (token string, err error) {
 	account, err := m.AccountsService.Authenticate(ctx, loginAccount.Username, loginAccount.Password)
 	if err != nil {
 		return "", err

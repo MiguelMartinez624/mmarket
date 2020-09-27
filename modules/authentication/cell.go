@@ -1,9 +1,9 @@
 package auth
 
 import (
+	"github.com/miguelmartinez624/mmarket/events"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
 	"github.com/miguelmartinez624/mmarket/modules/authentication/core/accounts"
-	"github.com/miguelmartinez624/mmarket/modules/events"
 	"github.com/miguelmartinez624/mmarket/nodos"
 	"log"
 )

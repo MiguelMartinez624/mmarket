@@ -1,4 +1,4 @@
-package gateways
+package gateway
 
 import (
 	"encoding/json"
@@ -6,15 +6,16 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/miguelmartinez624/mmarket/modules/orders/core"
-	"github.com/miguelmartinez624/mmarket/modules/orders/core/domains/orders"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/orders"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core"
 )
 
 type HttpController struct {
-	stores *core.Module
+	stores *ecommerce.Module
+
 }
 
-func NewHttpController(stores *core.Module) *HttpController {
+func NewHttpController(stores *ecommerce.Module) *HttpController {
 	return &HttpController{stores: stores}
 }
 

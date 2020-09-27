@@ -3,7 +3,7 @@ package users
 import (
 	"context"
 	"encoding/json"
-	"github.com/miguelmartinez624/mmarket/modules/events"
+	"github.com/miguelmartinez624/mmarket/events"
 	users "github.com/miguelmartinez624/mmarket/modules/users/core"
 	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 	"github.com/miguelmartinez624/mmarket/nodos"

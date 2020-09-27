@@ -2,15 +2,14 @@ package tests
 
 import (
 	"context"
-
-	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/dto"
+	"github.com/miguelmartinez624/mmarket/modules/users/core/profiles"
 )
 
 type MuckProfileModule struct{}
 
-func (m MuckProfileModule) GetProfileByID(ctx context.Context, ID string) (profile *dto.Profile, err error) {
+func (m MuckProfileModule) GetProfileByID(ctx context.Context, ID string) (profile *profiles.Profile, err error) {
 
-	profile = &dto.Profile{
+	profile = &profiles.Profile{
 		ID: ID,
 	}
 

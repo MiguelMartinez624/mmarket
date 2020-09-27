@@ -7,18 +7,11 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core"
 	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/products"
 	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/stores"
 )
 
-type HttpController struct {
-	stores *ecommerce.Module
-}
 
-func NewHttpController(stores *ecommerce.Module) *HttpController {
-	return &HttpController{stores: stores}
-}
 
 func (a *HttpController) GetUserStores(w http.ResponseWriter, r *http.Request) {
 	profileID := mux.Vars(r)["profile_id"]

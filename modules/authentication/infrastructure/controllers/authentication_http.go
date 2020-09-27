@@ -7,7 +7,6 @@ import (
 
 	"github.com/gorilla/mux"
 	auth "github.com/miguelmartinez624/mmarket/modules/authentication/core"
-	"github.com/miguelmartinez624/mmarket/modules/dto"
 )
 
 type AuthenticationHTTP struct {
@@ -19,7 +18,7 @@ func NewAuthHTTP(auth *auth.Module) *AuthenticationHTTP {
 }
 
 func (a *AuthenticationHTTP) Signin(w http.ResponseWriter, r *http.Request) {
-	var dto dto.LoginAccount
+	var dto auth.LoginAccount
 
 	err := json.NewDecoder(r.Body).Decode(&dto)
 	if err != nil {
@@ -39,7 +38,7 @@ func (a *AuthenticationHTTP) Signin(w http.ResponseWriter, r *http.Request) {
 
 func (a *AuthenticationHTTP) SignUp(w http.ResponseWriter, r *http.Request) {
 
-	var dto dto.RegisterUser
+	var dto auth.RegisterUser
 
 	err := json.NewDecoder(r.Body).Decode(&dto)
 	if err != nil {

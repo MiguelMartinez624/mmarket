@@ -2,11 +2,7 @@ package ecommerce
 
 import (
 	"context"
-	"fmt"
-	"sync"
-
-	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/dto"
-	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/externals"
+	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/orders"
 	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/products"
 	"github.com/miguelmartinez624/mmarket/modules/ecommerce/core/stores"
 )
@@ -14,7 +10,7 @@ import (
 type Module struct {
 	storeService    *stores.Service
 	productsService *products.Service
-	proiflesModule  externals.ProfileModule
+	ordersService   *orders.Service
 }
 
 func Build(storeRepo stores.Repository, productsRepo products.Repository) *Module {
@@ -26,22 +22,11 @@ func Build(storeRepo stores.Repository, productsRepo products.Repository) *Modul
 	return &modules
 }
 
-func (m *Module) ConnectToProfiles(connection externals.ProfileModule) {
-	m.proiflesModule = connection
-}
-
 func (m *Module) CreateStore(ctx context.Context, store *stores.Store) (ID string, err error) {
-
-	_, err = m.proiflesModule.GetProfileByID(ctx, store.ProfileID)
-	if err != nil {
-		return "", err
-	}
-
 	return m.storeService.CreateStore(ctx, store)
 }
 
 func (m *Module) GetUserStores(ctx context.Context, profileID string) (list []stores.Store, err error) {
-
 	return m.storeService.GetUserStores(ctx, profileID)
 }
 
@@ -67,32 +52,4 @@ func (m *Module) UpdateProduct(ctx context.Context, productID string, product *p
 	return m.productsService.UpdateProduct(ctx, productID, product)
 }
 
-func (m *Module) CheckProductsAvailaility(ctx context.Context, consult []dto.ProductStockConsult) (ok bool, err error) {
 
-	var wg sync.WaitGroup
-	wg.Add(len(consult))
-	invalidCount := 0
-
-	for i := range consult {
-		copyC := consult[i]
-		go func() {
-			wg.Done()
-			av, err := m.productsService.CheckAvailability(ctx, copyC.ProductID, copyC.Quantity)
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			if !av {
-				invalidCount++
-			}
-			copyC.Aval = av
-		}()
-	}
-
-	if invalidCount > 0 {
-		return false, nil
-	}
-
-	return
-
-}
